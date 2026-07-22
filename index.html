@@ -19,6 +19,7 @@
   --gris:#9B94AC;
   --papier:#C9A45C;
   --papier-fonce:#8A6C33;
+  --tiktok:#25F4EE;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -165,17 +166,43 @@ section{padding:90px 0}
 @keyframes secousse{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
 
 /* ─── Vidéos ─── */
-.grille-videos{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:26px}
+.grille-videos{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1000px;margin:0 auto}
 .carte-video{
-  background:var(--carte);border:1px solid rgba(139,63,232,.35);border-radius:10px;
-  overflow:hidden;transition:transform .2s,box-shadow .2s;
+  background:var(--carte);border:1px solid rgba(139,63,232,.35);border-radius:12px;
+  overflow:hidden;transition:transform .2s,box-shadow .2s,border-color .2s;
+  display:flex;flex-direction:column;text-decoration:none;color:inherit;
 }
-.carte-video:hover{transform:translateY(-5px);box-shadow:0 12px 34px rgba(227,31,191,.2)}
-.carte-video .ratio-tiktok{position:relative;padding-top:150%;background:#000}
-.carte-video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-.carte-video .legende{padding:16px 18px}
-.carte-video .legende h4{font-size:1.05rem;margin-bottom:4px}
-.carte-video .legende p{color:var(--gris);font-size:.9rem}
+.carte-video:hover{transform:translateY(-6px);border-color:var(--magenta);box-shadow:0 14px 40px rgba(227,31,191,.28)}
+.carte-video .apercu-tiktok{
+  position:relative;width:100%;padding-top:150%;
+  background:radial-gradient(circle at 50% 40%,#2A1250 0%,#160A2E 60%,#0C0518 100%);
+  overflow:hidden;display:flex;
+}
+.apercu-tiktok .halo{
+  position:absolute;top:50%;left:50%;width:180px;height:180px;transform:translate(-50%,-50%);
+  background:radial-gradient(circle,rgba(227,31,191,.35) 0%,transparent 70%);
+}
+.apercu-tiktok .logo-tt{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:70px;height:70px;display:flex;align-items:center;justify-content:center;
+}
+.apercu-tiktok .logo-tt svg{width:100%;height:100%;fill:#fff;filter:drop-shadow(0 0 12px rgba(37,244,238,.7)) drop-shadow(2px 2px 0 rgba(227,31,191,.6))}
+.apercu-tiktok .play-tt{
+  position:absolute;bottom:16px;left:50%;transform:translateX(-50%);
+  width:46px;height:46px;border-radius:50%;background:rgba(227,31,191,.9);
+  color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.1rem;
+  padding-left:3px;box-shadow:0 0 18px rgba(227,31,191,.6);transition:transform .2s;
+}
+.carte-video:hover .play-tt{transform:translateX(-50%) scale(1.12)}
+.apercu-tiktok .tag-tt{
+  position:absolute;top:12px;right:12px;font-family:'Special Elite',monospace;font-size:.72rem;
+  background:rgba(0,0,0,.6);border:1px solid var(--tiktok,#25F4EE);color:var(--tiktok,#25F4EE);
+  padding:2px 10px;border-radius:20px;letter-spacing:.06em;
+}
+.carte-video .legende{padding:14px 16px}
+.carte-video .legende h4{font-size:1.02rem;margin-bottom:4px}
+.carte-video .legende p{color:var(--gris);font-size:.88rem}
+@media(max-width:820px){.grille-videos{grid-template-columns:1fr;max-width:320px}}
 .bloc-streamer{
   margin-top:60px;background:var(--carte);border:1px solid rgba(227,31,191,.4);
   border-radius:12px;padding:36px;display:grid;grid-template-columns:110px 1fr;gap:26px;align-items:center;
@@ -447,12 +474,20 @@ footer{background:#07070F;border-top:1px solid rgba(139,63,232,.3);padding:60px 
   }
 
   videos.forEach(v => {
-    const id = idTikTok(v.url);
-    const carte = document.createElement('div');
+    const url = v.url;
+    const carte = document.createElement('a');
     carte.className = 'carte-video';
+    carte.href = url;
+    carte.target = '_blank';
+    carte.rel = 'noopener';
     carte.innerHTML = `
-      <div class="ratio-tiktok">
-        <iframe src="https://www.tiktok.com/embed/v2/${id}" title="${v.titre || 'Vidéo TikTok'}" loading="lazy" allowfullscreen scrolling="no"></iframe>
+      <div class="apercu-tiktok">
+        <div class="halo"></div>
+        <div class="logo-tt">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.6 5.82s.51.5 0 0A4.28 4.28 0 0 1 15.54 3h-3.09v12.4a2.59 2.59 0 0 1-2.59 2.5c-1.42 0-2.6-1.16-2.6-2.6 0-1.72 1.66-3.01 3.37-2.48V9.66c-3.45-.46-6.47 2.22-6.47 5.64 0 3.33 2.76 5.7 5.69 5.7 3.14 0 5.69-2.55 5.69-5.7V9.01a7.35 7.35 0 0 0 4.3 1.38V7.3s-1.88.09-3.34-1.48z"/></svg>
+        </div>
+        <div class="play-tt">▶</div>
+        <span class="tag-tt">TikTok</span>
       </div>
       <div class="legende"><h4>${v.titre || ''}</h4><p>${v.desc || ''}</p></div>
     `;
