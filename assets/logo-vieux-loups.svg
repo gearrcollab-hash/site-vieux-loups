@@ -1,0 +1,83 @@
+<svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <linearGradient id="furA" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8B3FE8"/><stop offset="1" stop-color="#5A2AA0"/>
+    </linearGradient>
+    <linearGradient id="furB" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#6E31C4"/><stop offset="1" stop-color="#43207A"/>
+    </linearGradient>
+    <linearGradient id="furC" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#A55BFF"/><stop offset="1" stop-color="#7A36D6"/>
+    </linearGradient>
+    <linearGradient id="neon" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#E31FBF"/><stop offset="1" stop-color="#8B3FE8"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <path id="arcTop" d="M 72,250 A 178,178 0 0 1 428,250" fill="none"/>
+    <path id="arcBot" d="M 92,250 A 158,158 0 0 0 408,250" fill="none"/>
+  </defs>
+
+  <!-- Badge -->
+  <circle cx="250" cy="250" r="238" fill="#0E0C18"/>
+  <circle cx="250" cy="250" r="238" fill="none" stroke="url(#neon)" stroke-width="7" filter="url(#glow)"/>
+  <circle cx="250" cy="250" r="206" fill="none" stroke="#8B3FE8" stroke-width="2" opacity="0.7"/>
+
+  <!-- Cannes croisées derrière la tête -->
+  <g stroke="#C9A45C" stroke-width="11" stroke-linecap="round" fill="none" opacity="0.95">
+    <path d="M 150,355 L 305,175 A 30,30 0 0 0 268,138"/>
+    <path d="M 350,355 L 195,175 A 30,30 0 0 1 232,138"/>
+  </g>
+
+  <!-- Tête de loup low-poly -->
+  <g>
+    <!-- Oreilles -->
+    <polygon points="152,178 192,102 220,175" fill="url(#furB)"/>
+    <polygon points="167,166 192,118 208,165" fill="#3A1B66"/>
+    <polygon points="348,178 308,102 280,175" fill="url(#furB)"/>
+    <polygon points="333,166 308,118 292,165" fill="#3A1B66"/>
+    <!-- Crâne -->
+    <polygon points="152,178 250,152 348,178 250,206" fill="url(#furC)"/>
+    <!-- Joues -->
+    <polygon points="152,178 250,206 212,286 146,246" fill="url(#furA)"/>
+    <polygon points="348,178 250,206 288,286 354,246" fill="url(#furA)"/>
+    <!-- Piques de fourrure -->
+    <polygon points="146,246 212,286 172,306" fill="url(#furB)"/>
+    <polygon points="354,246 288,286 328,306" fill="url(#furB)"/>
+    <!-- Museau -->
+    <polygon points="250,206 212,286 250,346 288,286" fill="url(#furC)"/>
+    <polygon points="250,206 224,266 250,300 276,266" fill="#B98CFF" opacity="0.35"/>
+    <!-- Truffe -->
+    <polygon points="250,304 233,322 250,342 267,322" fill="#17121F"/>
+    <!-- Yeux -->
+    <polygon points="192,216 230,210 226,232 198,229" fill="#E31FBF" filter="url(#glow)"/>
+    <polygon points="308,216 270,210 274,232 302,229" fill="#E31FBF" filter="url(#glow)"/>
+  </g>
+
+  <!-- Lunettes de papy -->
+  <g stroke="#C9A45C" stroke-width="6" fill="none">
+    <circle cx="211" cy="222" r="28"/>
+    <circle cx="289" cy="222" r="28"/>
+    <path d="M 239,222 Q 250,210 261,222"/>
+    <path d="M 183,220 L 158,206"/>
+    <path d="M 317,220 L 342,206"/>
+  </g>
+
+  <!-- Textes -->
+  <g font-family="DejaVu Sans, Arial, sans-serif" font-weight="bold" fill="#E8E2D5">
+    <text font-size="34" letter-spacing="6">
+      <textPath xlink:href="#arcTop" startOffset="50%" text-anchor="middle">LES VIEUX LOUPS</textPath>
+    </text>
+    <text font-size="24" letter-spacing="4" fill="#E31FBF" filter="url(#glow)">
+      <textPath xlink:href="#arcBot" startOffset="50%" text-anchor="middle">★ DE L'EHPAD ★</textPath>
+    </text>
+  </g>
+
+  <!-- Étoiles latérales -->
+  <g fill="#C9A45C" font-family="DejaVu Sans, Arial, sans-serif" font-size="22">
+    <text x="52" y="258" text-anchor="middle">★</text>
+    <text x="448" y="258" text-anchor="middle">★</text>
+  </g>
+</svg>

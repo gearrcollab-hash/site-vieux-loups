@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Streamers — Les Vieux Loups</title>
+<link rel="icon" type="image/png" href="assets/logo-vieux-loups.png">
+<link href="https://fonts.googleapis.com/css2?family=Rubik+Dirt&family=Special+Elite&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --nuit:#0A0A14; --nuit-2:#12101E; --carte:#171427;
+  --magenta:#E31FBF; --violet:#8B3FE8; --craie:#E8E2D5; --gris:#9B94AC;
+  --tiktok:#25F4EE; --twitch:#9146FF; --kick:#53FC18;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--nuit);color:var(--craie);font-family:'Barlow',sans-serif;line-height:1.6;padding-bottom:60px}
+.display{font-family:'Rubik Dirt',cursive}
+.conteneur{max-width:900px;margin:0 auto;padding:0 20px}
+a{color:var(--magenta)}
+input,textarea,button{font-family:'Barlow',sans-serif}
+:focus-visible{outline:2px solid var(--magenta);outline-offset:2px}
+
+header{text-align:center;padding:50px 20px 30px;border-bottom:1px solid rgba(139,63,232,.3)}
+header img{width:80px;height:80px;margin:0 auto 14px}
+header h1{font-size:clamp(1.6rem,4vw,2.4rem)}
+header h1 .rose{color:var(--magenta)}
+header p{color:var(--gris);font-family:'Special Elite',monospace;margin-top:8px;font-size:.9rem}
+
+.avertissement{
+  background:rgba(227,31,191,.1);border:1px solid var(--magenta);border-radius:10px;
+  padding:16px 20px;margin:30px 0;font-size:.92rem;
+}
+.avertissement strong{color:var(--magenta)}
+
+.streamer-edit{
+  background:var(--carte);border:1px solid rgba(139,63,232,.35);border-radius:12px;
+  padding:24px;margin-bottom:20px;position:relative;
+}
+.streamer-edit .num{
+  position:absolute;top:-12px;left:20px;background:var(--violet);color:#fff;
+  font-weight:700;font-size:.8rem;padding:3px 12px;border-radius:20px;
+}
+.streamer-edit .supprimer{
+  position:absolute;top:16px;right:16px;background:#C0392B;color:#fff;border:none;
+  border-radius:6px;padding:6px 12px;cursor:pointer;font-weight:700;font-size:.85rem;transition:filter .2s;
+}
+.streamer-edit .supprimer:hover{filter:brightness(1.15)}
+.champ{margin-bottom:14px}
+.champ label{display:block;font-weight:600;font-size:.9rem;margin-bottom:5px}
+.champ label .icone{font-size:.85rem;color:var(--gris)}
+.champ input,.champ textarea{
+  width:100%;background:var(--nuit-2);border:1px solid rgba(139,63,232,.4);border-radius:7px;
+  padding:10px 12px;color:var(--craie);font-size:.98rem;
+}
+.champ input:focus,.champ textarea:focus{border-color:var(--magenta)}
+.champ textarea{min-height:60px;resize:vertical}
+.champ .aide{font-size:.78rem;color:var(--gris);margin-top:3px}
+.reseaux-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+@media(max-width:640px){.reseaux-row{grid-template-columns:1fr}}
+
+.boutons-action{display:flex;gap:14px;flex-wrap:wrap;margin:26px 0}
+.btn{padding:13px 24px;border-radius:8px;border:none;font-weight:700;font-size:1rem;cursor:pointer;transition:transform .15s,box-shadow .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn-ajouter{background:var(--nuit-2);color:var(--craie);border:2px solid var(--violet)}
+.btn-generer{background:linear-gradient(90deg,var(--magenta),var(--violet));color:#fff;box-shadow:0 0 20px rgba(227,31,191,.4)}
+
+.sortie{margin-top:30px;display:none}
+.sortie.visible{display:block}
+.sortie h2{font-size:1.3rem;margin-bottom:10px}
+.sortie textarea{
+  width:100%;min-height:280px;background:#07070F;border:1px solid var(--violet);border-radius:10px;
+  padding:16px;color:#9CDCFE;font-family:'Consolas','Courier New',monospace;font-size:.85rem;line-height:1.5;
+}
+.btn-copier{margin-top:12px;background:var(--violet);color:#fff}
+.instructions{background:var(--nuit-2);border-left:4px solid var(--magenta);padding:16px 20px;border-radius:8px;margin-top:16px;font-size:.92rem}
+.instructions ol{margin:8px 0 0 20px}
+.instructions li{margin-bottom:6px}
+.copie-ok{color:var(--kick);font-weight:700;margin-left:12px;opacity:0;transition:opacity .3s}
+.copie-ok.visible{opacity:1}
+</style>
+</head>
+<body>
+
+<header>
+  <img src="assets/logo-vieux-loups.png" alt="">
+  <h1 class="display">Admin <span class="rose">Streamers</span></h1>
+  <p>Éditeur des streamers partenaires — usage interne</p>
+</header>
+
+<div class="conteneur">
+  <div class="avertissement">
+    <strong>🔒 Page privée.</strong> Ne partage pas ce fichier <code>admin.html</code> publiquement. Il te sert à générer la liste des streamers ; ce n'est pas une page destinée aux visiteurs.
+  </div>
+
+  <div id="listeStreamers"></div>
+
+  <div class="boutons-action">
+    <button class="btn btn-ajouter" id="btnAjouter">➕ Ajouter un streamer</button>
+    <button class="btn btn-generer" id="btnGenerer">⚙️ Générer le code</button>
+  </div>
+
+  <div class="sortie" id="sortie">
+    <h2>📋 Code généré</h2>
+    <textarea id="codeGenere" readonly></textarea>
+    <button class="btn btn-copier" id="btnCopier">📄 Copier le code</button>
+    <span class="copie-ok" id="copieOk">✅ Copié !</span>
+
+    <div class="instructions">
+      <strong>Pour appliquer les changements :</strong>
+      <ol>
+        <li>Clique sur <strong>Copier le code</strong> ci-dessus</li>
+        <li>Ouvre le fichier <code>streamers.js</code> dans un éditeur (Bloc-notes, VS Code...)</li>
+        <li>Sélectionne <strong>tout</strong> l'ancien contenu et remplace-le par le code copié</li>
+        <li>Enregistre le fichier</li>
+        <li>Re-déploie ton site (glisse le dossier sur Netlify) — c'est à jour !</li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<!-- On charge les streamers existants pour pouvoir les modifier -->
+<script src="streamers.js"></script>
+<script>
+const liste = document.getElementById('listeStreamers');
+let compteur = 0;
+
+function ligneStreamer(data = {}) {
+  compteur++;
+  const div = document.createElement('div');
+  div.className = 'streamer-edit';
+  div.innerHTML = `
+    <span class="num">Streamer #${compteur}</span>
+    <button class="supprimer" onclick="this.parentElement.remove()">🗑️ Retirer</button>
+    <div class="champ">
+      <label>Nom du streamer *</label>
+      <input type="text" class="f-nom" value="${(data.nom||'').replace(/"/g,'&quot;')}" placeholder="ex: PapyGamer">
+    </div>
+    <div class="champ">
+      <label>Description</label>
+      <textarea class="f-desc" placeholder="Quelques mots sur le streamer...">${data.description||''}</textarea>
+    </div>
+    <div class="champ">
+      <label>Photo <span class="icone">(lien image, optionnel)</span></label>
+      <input type="url" class="f-photo" value="${(data.photo||'').replace(/"/g,'&quot;')}" placeholder="https://...">
+      <div class="aide">Laisse vide pour afficher le logo loup 🐺 à la place.</div>
+    </div>
+    <div class="reseaux-row">
+      <div class="champ">
+        <label>🎵 TikTok</label>
+        <input type="url" class="f-tiktok" value="${(data.tiktok||'').replace(/"/g,'&quot;')}" placeholder="https://tiktok.com/@...">
+      </div>
+      <div class="champ">
+        <label>🟣 Twitch</label>
+        <input type="url" class="f-twitch" value="${(data.twitch||'').replace(/"/g,'&quot;')}" placeholder="https://twitch.tv/...">
+      </div>
+      <div class="champ">
+        <label>🟢 Kick</label>
+        <input type="url" class="f-kick" value="${(data.kick||'').replace(/"/g,'&quot;')}" placeholder="https://kick.com/...">
+      </div>
+    </div>
+    <div class="aide">💡 Un réseau laissé vide ne s'affichera pas sur le site.</div>
+  `;
+  liste.appendChild(div);
+}
+
+// Charger les streamers existants (ou une ligne vide si aucun)
+if (typeof STREAMERS !== 'undefined' && STREAMERS.length) {
+  STREAMERS.forEach(s => ligneStreamer(s));
+} else {
+  ligneStreamer();
+}
+
+document.getElementById('btnAjouter').addEventListener('click', () => ligneStreamer());
+
+document.getElementById('btnGenerer').addEventListener('click', () => {
+  const streamers = [];
+  document.querySelectorAll('.streamer-edit').forEach(div => {
+    const val = (cls) => div.querySelector(cls).value.trim();
+    const nom = val('.f-nom');
+    if (!nom) return; // on ignore les lignes sans nom
+    streamers.push({
+      nom,
+      description: val('.f-desc'),
+      photo: val('.f-photo'),
+      tiktok: val('.f-tiktok'),
+      twitch: val('.f-twitch'),
+      kick: val('.f-kick')
+    });
+  });
+
+  const esc = (s) => s.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+  const corps = streamers.map(s =>
+`  {
+    nom: "${esc(s.nom)}",
+    description: "${esc(s.description)}",
+    photo: "${esc(s.photo)}",
+    tiktok: "${esc(s.tiktok)}",
+    twitch: "${esc(s.twitch)}",
+    kick: "${esc(s.kick)}"
+  }`).join(',\n');
+
+  const code =
+`// ═══════════════════════════════════════════════════════════
+//   🎥 STREAMERS PARTENAIRES — Les Vieux Loups de l'EHPAD
+//   Généré via admin.html — colle ce contenu dans streamers.js
+// ═══════════════════════════════════════════════════════════
+
+const STREAMERS = [
+${corps}
+];
+
+if (typeof module !== "undefined") module.exports = STREAMERS;`;
+
+  document.getElementById('codeGenere').value = code;
+  document.getElementById('sortie').classList.add('visible');
+  document.getElementById('sortie').scrollIntoView({ behavior: 'smooth' });
+});
+
+document.getElementById('btnCopier').addEventListener('click', async () => {
+  const ta = document.getElementById('codeGenere');
+  try {
+    await navigator.clipboard.writeText(ta.value);
+  } catch {
+    ta.select(); document.execCommand('copy');
+  }
+  const ok = document.getElementById('copieOk');
+  ok.classList.add('visible');
+  setTimeout(() => ok.classList.remove('visible'), 2000);
+});
+</script>
+</body>
+</html>

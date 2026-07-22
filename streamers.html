@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Streamers partenaires — Les Vieux Loups de l'EHPAD</title>
+<link rel="icon" type="image/png" href="assets/logo-vieux-loups.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rubik+Dirt&family=Special+Elite&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --nuit:#0A0A14; --nuit-2:#12101E; --carte:#171427;
+  --magenta:#E31FBF; --violet:#8B3FE8; --craie:#E8E2D5; --gris:#9B94AC;
+  --tiktok:#25F4EE; --twitch:#9146FF; --kick:#53FC18;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--nuit);color:var(--craie);font-family:'Barlow',sans-serif;line-height:1.6;min-height:100vh}
+.display{font-family:'Rubik Dirt',cursive;letter-spacing:.02em}
+img{max-width:100%;display:block}
+a{text-decoration:none}
+.conteneur{max-width:1000px;margin:0 auto;padding:0 20px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--magenta);outline-offset:2px}
+
+nav{position:sticky;top:0;z-index:50;background:rgba(10,10,20,.9);backdrop-filter:blur(10px);border-bottom:1px solid rgba(139,63,232,.3)}
+nav .conteneur{display:flex;align-items:center;justify-content:space-between;height:64px}
+.nav-marque{display:flex;align-items:center;gap:10px;color:var(--craie)}
+.nav-marque img{width:42px;height:42px}
+.nav-marque span{font-family:'Rubik Dirt',cursive;font-size:1.05rem}
+.retour{color:var(--gris);font-weight:600;font-size:.95rem;transition:color .2s}
+.retour:hover{color:var(--magenta)}
+
+header.hero-page{text-align:center;padding:70px 20px 40px}
+header.hero-page img{width:110px;height:110px;margin:0 auto 18px;filter:drop-shadow(0 0 20px rgba(227,31,191,.5))}
+header.hero-page h1{font-size:clamp(2rem,5vw,3.2rem);text-shadow:0 0 24px rgba(227,31,191,.5)}
+header.hero-page h1 .rose{color:var(--magenta)}
+header.hero-page p{color:var(--gris);font-family:'Special Elite',monospace;margin-top:12px}
+
+.grille-streamers{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:26px;padding:20px 0 80px}
+.carte-streamer{
+  background:var(--carte);border:1px solid rgba(139,63,232,.35);border-radius:14px;
+  padding:28px 24px;text-align:center;transition:transform .2s,border-color .2s,box-shadow .2s;
+}
+.carte-streamer:hover{transform:translateY(-6px);border-color:var(--magenta);box-shadow:0 14px 40px rgba(227,31,191,.2)}
+.avatar{
+  width:96px;height:96px;border-radius:50%;margin:0 auto 16px;object-fit:cover;
+  border:3px solid var(--violet);background:var(--nuit-2);
+}
+.avatar-vide{
+  width:96px;height:96px;border-radius:50%;margin:0 auto 16px;
+  display:flex;align-items:center;justify-content:center;font-size:2.6rem;
+  border:3px solid var(--violet);background:var(--nuit-2);
+}
+.carte-streamer h3{font-size:1.35rem;margin-bottom:8px}
+.carte-streamer .desc{color:var(--gris);font-size:.95rem;margin-bottom:20px;min-height:2.5em}
+.reseaux{display:flex;flex-direction:column;gap:10px}
+.reseau{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  padding:11px 16px;border-radius:8px;font-weight:700;font-size:.98rem;
+  transition:transform .15s,filter .2s;color:#fff;
+}
+.reseau:hover{transform:translateY(-2px);filter:brightness(1.15)}
+.reseau svg{width:20px;height:20px;fill:currentColor;flex-shrink:0}
+.reseau.tiktok{background:#010101;border:1px solid var(--tiktok);color:var(--tiktok)}
+.reseau.twitch{background:var(--twitch)}
+.reseau.kick{background:#0e0e0e;border:1px solid var(--kick);color:var(--kick)}
+
+.vide{text-align:center;padding:80px 20px;color:var(--gris)}
+.vide h2{font-family:'Rubik Dirt',cursive;color:var(--magenta);margin-bottom:12px}
+
+footer{background:#07070F;border-top:1px solid rgba(139,63,232,.3);padding:30px 0;text-align:center;color:#5A536B;font-family:'Special Elite',monospace;font-size:.85rem}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="conteneur">
+    <a href="index.html" class="nav-marque">
+      <img src="assets/logo-vieux-loups.png" alt="Logo Les Vieux Loups">
+      <span>Les Vieux Loups</span>
+    </a>
+    <a href="index.html" class="retour">← Retour au site</a>
+  </div>
+</nav>
+
+<header class="hero-page">
+  <img src="assets/logo-vieux-loups.png" alt="">
+  <h1 class="display">Streamers <span class="rose">partenaires</span></h1>
+  <p>La meute à l'écran — retrouve-les sur leurs réseaux</p>
+</header>
+
+<main class="conteneur">
+  <div class="grille-streamers" id="grilleStreamers"></div>
+  <div class="vide" id="messageVide" hidden>
+    <h2>🎥 Bientôt de nouveaux visages</h2>
+    <p>Aucun streamer partenaire pour le moment. Reviens vite !</p>
+  </div>
+</main>
+
+<footer>
+  © 2026 Les Vieux Loups de l'EHPAD — On mord encore. 🐺
+</footer>
+
+<!-- Icônes SVG des réseaux (inline, pas de dépendance externe) -->
+<script src="streamers.js"></script>
+<script>
+const ICONES = {
+  tiktok: '<svg viewBox="0 0 24 24"><path d="M16.6 5.82s.51.5 0 0A4.28 4.28 0 0 1 15.54 3h-3.09v12.4a2.59 2.59 0 0 1-2.59 2.5c-1.42 0-2.6-1.16-2.6-2.6 0-1.72 1.66-3.01 3.37-2.48V9.66c-3.45-.46-6.47 2.22-6.47 5.64 0 3.33 2.76 5.7 5.69 5.7 3.14 0 5.69-2.55 5.69-5.7V9.01a7.35 7.35 0 0 0 4.3 1.38V7.3s-1.88.09-3.34-1.48z"/></svg>',
+  twitch: '<svg viewBox="0 0 24 24"><path d="M2.15 0L.5 4.11v16.72h5.71V24h3.14l2.85-3.17h4.57L23.5 14V0zm19.14 13.17l-3.43 3.43h-5.71l-2.85 2.85v-2.85H4.43V2.28h16.86zM17.71 6.86v6.28h-2.28V6.86zm-6.28 0v6.28H9.14V6.86z"/></svg>',
+  kick: '<svg viewBox="0 0 24 24"><path d="M3 3h6v5l4-5h7l-6 8 6 10h-7l-4-6v6H3z"/></svg>'
+};
+
+const LABELS = { tiktok: 'TikTok', twitch: 'Twitch', kick: 'Kick' };
+
+function creerCarte(s) {
+  const carte = document.createElement('div');
+  carte.className = 'carte-streamer';
+
+  const avatar = s.photo
+    ? `<img class="avatar" src="${s.photo}" alt="${s.nom}">`
+    : `<div class="avatar-vide">🐺</div>`;
+
+  // On ne garde que les réseaux réellement remplis
+  const reseaux = ['tiktok', 'twitch', 'kick']
+    .filter(r => s[r] && s[r].trim() !== '')
+    .map(r => `<a class="reseau ${r}" href="${s[r]}" target="_blank" rel="noopener">${ICONES[r]} ${LABELS[r]}</a>`)
+    .join('');
+
+  carte.innerHTML = `
+    ${avatar}
+    <h3>${s.nom || 'Streamer'}</h3>
+    <p class="desc">${s.description || ''}</p>
+    <div class="reseaux">${reseaux || '<span style="color:var(--gris);font-size:.9rem">Réseaux à venir</span>'}</div>
+  `;
+  return carte;
+}
+
+const grille = document.getElementById('grilleStreamers');
+const vide = document.getElementById('messageVide');
+
+if (typeof STREAMERS !== 'undefined' && STREAMERS.length) {
+  STREAMERS.forEach(s => grille.appendChild(creerCarte(s)));
+} else {
+  grille.hidden = true;
+  vide.hidden = false;
+}
+</script>
+</body>
+</html>

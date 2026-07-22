@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Les Vieux Loups de l'EHPAD — Organisation GTA RP</title>
+<meta name="description" content="Les Vieux Loups de l'EHPAD — le gang le plus redouté du déambulateur. Recrutement ouvert.">
+<link rel="icon" type="image/png" href="assets/logo-vieux-loups.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rubik+Dirt&family=Special+Elite&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --nuit:#0A0A14;
+  --nuit-2:#12101E;
+  --carte:#171427;
+  --magenta:#E31FBF;
+  --violet:#8B3FE8;
+  --craie:#E8E2D5;
+  --gris:#9B94AC;
+  --papier:#C9A45C;
+  --papier-fonce:#8A6C33;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--nuit);
+  color:var(--craie);
+  font-family:'Barlow',sans-serif;
+  line-height:1.6;
+  overflow-x:hidden;
+}
+h1,h2,h3{line-height:1.15}
+.display{font-family:'Rubik Dirt',cursive;font-weight:400;letter-spacing:.02em}
+.tampon{font-family:'Special Elite',monospace}
+img{max-width:100%;display:block}
+a{color:var(--magenta)}
+.conteneur{max-width:1100px;margin:0 auto;padding:0 20px}
+
+/* ─── Nav ─── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  background:rgba(10,10,20,.85);backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(139,63,232,.3);
+}
+nav .conteneur{display:flex;align-items:center;justify-content:space-between;height:64px}
+.nav-marque{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--craie)}
+.nav-marque img{width:42px;height:42px}
+.nav-marque span{font-family:'Rubik Dirt',cursive;font-size:1.05rem}
+.nav-liens{display:flex;gap:24px;list-style:none}
+.nav-liens a{color:var(--gris);text-decoration:none;font-weight:600;font-size:.95rem;transition:color .2s}
+.nav-liens a:hover,.nav-liens a:focus-visible{color:var(--magenta)}
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{
+  outline:2px solid var(--magenta);outline-offset:2px;
+}
+
+/* ─── Hero ─── */
+.hero{position:relative;min-height:100vh;display:flex;align-items:flex-end;padding-top:64px}
+.hero-fond{position:absolute;inset:0;overflow:hidden}
+.hero-fond img{width:100%;height:100%;object-fit:cover;object-position:center top}
+.hero-fond::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(10,10,20,.25) 0%,rgba(10,10,20,.15) 40%,rgba(10,10,20,.92) 85%,var(--nuit) 100%);
+}
+.hero-contenu{position:relative;z-index:2;width:100%;padding:0 20px 70px;text-align:center}
+.hero-logo{width:150px;height:150px;margin:0 auto 18px;filter:drop-shadow(0 0 24px rgba(227,31,191,.55));animation:flotter 5s ease-in-out infinite}
+@keyframes flotter{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.hero h1{font-size:clamp(2.2rem,6vw,4.2rem);text-shadow:0 0 30px rgba(227,31,191,.6),0 4px 12px rgba(0,0,0,.8)}
+.hero h1 .rose{color:var(--magenta)}
+.hero-slogan{font-family:'Special Elite',monospace;color:var(--gris);margin:12px 0 28px;font-size:clamp(1rem,2.2vw,1.25rem)}
+.boutons{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:14px 30px;border-radius:6px;text-decoration:none;font-weight:700;
+  font-size:1.05rem;transition:transform .15s,box-shadow .2s;border:none;cursor:pointer;
+}
+.btn:hover{transform:translateY(-2px)}
+.btn-neon{
+  background:linear-gradient(90deg,var(--magenta),var(--violet));color:#fff;
+  box-shadow:0 0 22px rgba(227,31,191,.45);
+}
+.btn-neon:hover{box-shadow:0 0 34px rgba(227,31,191,.7)}
+.btn-fantome{background:transparent;color:var(--craie);border:2px solid var(--violet)}
+.btn-fantome:hover{background:rgba(139,63,232,.15)}
+
+/* ─── Sections ─── */
+section{padding:90px 0}
+.titre-section{text-align:center;margin-bottom:14px;font-size:clamp(1.8rem,4vw,2.6rem)}
+.titre-section .rose{color:var(--magenta);text-shadow:0 0 18px rgba(227,31,191,.5)}
+.sous-titre{text-align:center;color:var(--gris);font-family:'Special Elite',monospace;margin-bottom:50px}
+
+/* Devise / cartes */
+.cartes-devise{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px}
+.carte-devise{
+  background:var(--carte);border:1px solid rgba(139,63,232,.35);border-radius:10px;
+  padding:32px 26px;text-align:center;position:relative;transition:transform .2s,border-color .2s;
+}
+.carte-devise:hover{transform:translateY(-5px);border-color:var(--magenta)}
+.carte-devise .icone{font-size:2.4rem;margin-bottom:14px}
+.carte-devise h3{font-family:'Rubik Dirt',cursive;font-size:1.35rem;color:var(--magenta);margin-bottom:10px}
+.carte-devise p{color:var(--gris);font-size:.98rem}
+
+/* ─── Recrutement (affiche wanted) ─── */
+#recrutement{background:var(--nuit-2)}
+.dossier{
+  max-width:680px;margin:0 auto;position:relative;
+  background:linear-gradient(160deg,#E6D6AE 0%,#D9C494 45%,#C9AF7C 100%);
+  color:#2A2013;border-radius:4px;padding:46px 40px 40px;
+  transform:rotate(-.6deg);
+  box-shadow:0 24px 60px rgba(0,0,0,.6),0 0 40px rgba(227,31,191,.12);
+}
+.dossier::before{
+  content:'CONFIDENTIEL';
+  position:absolute;top:24px;right:-14px;transform:rotate(8deg);
+  font-family:'Special Elite',monospace;font-weight:700;font-size:1rem;
+  color:#A32222;border:3px solid #A32222;padding:4px 12px;opacity:.8;
+  border-radius:3px;
+}
+.dossier h3{
+  font-family:'Special Elite',monospace;text-align:center;font-size:1.7rem;
+  letter-spacing:.06em;border-bottom:3px double #6B5426;padding-bottom:14px;margin-bottom:8px;
+}
+.dossier .note{font-family:'Special Elite',monospace;text-align:center;font-size:.85rem;color:#6B5426;margin-bottom:28px}
+.champ{margin-bottom:20px}
+.champ label{display:block;font-family:'Special Elite',monospace;font-weight:700;font-size:.9rem;margin-bottom:6px;letter-spacing:.04em}
+.champ input,.champ textarea,.champ select{
+  width:100%;background:rgba(255,252,240,.65);border:2px solid #6B5426;border-radius:3px;
+  padding:11px 13px;font-family:'Barlow',sans-serif;font-size:1rem;color:#2A2013;
+}
+.champ textarea{min-height:110px;resize:vertical}
+.champ input::placeholder,.champ textarea::placeholder{color:#8A7A55}
+.dossier .btn-neon{width:100%;justify-content:center;font-size:1.1rem;margin-top:6px}
+.retour-form{
+  margin-top:18px;padding:12px 14px;border-radius:4px;font-weight:600;display:none;
+  font-family:'Special Elite',monospace;font-size:.92rem;
+}
+.retour-form.ok{display:block;background:rgba(46,140,80,.18);border:2px solid #2E8C50;color:#1E5C36}
+.retour-form.erreur{display:block;background:rgba(163,34,34,.14);border:2px solid #A32222;color:#7A1A1A}
+
+/* Titres de section du questionnaire */
+.section-form{
+  font-family:'Special Elite',monospace;font-weight:700;font-size:1.05rem;
+  border-bottom:2px solid #6B5426;padding-bottom:5px;margin:30px 0 16px;letter-spacing:.04em;
+}
+.dossier .section-form:first-of-type{margin-top:0}
+.texte-vision,.texte-important{
+  font-size:.95rem;background:rgba(255,252,240,.5);border-left:4px solid #6B5426;
+  padding:12px 14px;margin-bottom:18px;border-radius:3px;
+}
+.texte-important{margin-top:24px;border-left-color:#A32222}
+.indice{font-weight:400;font-size:.78rem;color:#6B5426}
+.label-choix{display:block;font-family:'Special Elite',monospace;font-weight:700;font-size:.9rem;margin-bottom:8px;letter-spacing:.04em}
+
+/* Boutons Oui/Non → 🟩 vert / 🟥 rouge */
+.choix{display:flex;gap:12px}
+.btn-choix{
+  flex:1;padding:11px 16px;border:2px solid #6B5426;border-radius:3px;cursor:pointer;
+  background:rgba(255,252,240,.65);color:#2A2013;
+  font-family:'Special Elite',monospace;font-weight:700;font-size:.95rem;
+  transition:background .15s,border-color .15s,color .15s,transform .1s;
+}
+.btn-choix:hover{transform:translateY(-1px)}
+.btn-choix.vert{background:#2E8C50;border-color:#1E5C36;color:#fff}
+.btn-choix.rouge{background:#C0392B;border-color:#7A1A1A;color:#fff}
+.choix.manquant .btn-choix{border-color:#A32222;animation:secousse .3s}
+@keyframes secousse{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+
+/* ─── Vidéos ─── */
+.grille-videos{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:26px}
+.carte-video{
+  background:var(--carte);border:1px solid rgba(139,63,232,.35);border-radius:10px;
+  overflow:hidden;transition:transform .2s,box-shadow .2s;
+}
+.carte-video:hover{transform:translateY(-5px);box-shadow:0 12px 34px rgba(227,31,191,.2)}
+.carte-video .ratio-tiktok{position:relative;padding-top:150%;background:#000}
+.carte-video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.carte-video .legende{padding:16px 18px}
+.carte-video .legende h4{font-size:1.05rem;margin-bottom:4px}
+.carte-video .legende p{color:var(--gris);font-size:.9rem}
+.bloc-streamer{
+  margin-top:60px;background:var(--carte);border:1px solid rgba(227,31,191,.4);
+  border-radius:12px;padding:36px;display:grid;grid-template-columns:110px 1fr;gap:26px;align-items:center;
+}
+.bloc-streamer img{width:110px;height:110px;object-fit:contain;filter:drop-shadow(0 0 14px rgba(255,120,20,.5))}
+.badge-partenaire{
+  display:inline-block;font-family:'Special Elite',monospace;font-size:.78rem;
+  background:rgba(227,31,191,.15);border:1px solid var(--magenta);color:var(--magenta);
+  padding:3px 12px;border-radius:20px;margin-bottom:10px;letter-spacing:.08em;
+}
+.bloc-streamer h3{font-size:1.5rem;margin-bottom:8px}
+.bloc-streamer p{color:var(--gris);margin-bottom:16px}
+
+/* ─── Footer ─── */
+footer{background:#07070F;border-top:1px solid rgba(139,63,232,.3);padding:60px 0 30px}
+.footer-grille{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:40px;margin-bottom:44px}
+.footer-bloc h4{font-family:'Rubik Dirt',cursive;font-size:1.2rem;margin-bottom:16px;color:var(--magenta)}
+.footer-bloc p{color:var(--gris);font-size:.95rem}
+.lien-discord{
+  display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--craie);
+  background:var(--carte);border:1px solid rgba(139,63,232,.35);border-radius:10px;
+  padding:14px 18px;margin-top:14px;transition:border-color .2s,transform .15s;font-weight:600;
+}
+.lien-discord:hover{border-color:var(--magenta);transform:translateY(-2px)}
+.lien-discord img{width:46px;height:46px;object-fit:contain}
+.lien-discord small{display:block;color:var(--gris);font-weight:400;font-size:.82rem}
+.footer-fin{text-align:center;color:#5A536B;font-size:.85rem;border-top:1px solid rgba(139,63,232,.15);padding-top:24px;font-family:'Special Elite',monospace}
+
+@media (max-width:640px){
+  .nav-liens{display:none}
+  .bloc-streamer{grid-template-columns:1fr;text-align:center}
+  .bloc-streamer img{margin:0 auto}
+  .dossier{padding:38px 22px 32px;transform:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="conteneur">
+    <a href="#" class="nav-marque">
+      <img src="assets/logo-vieux-loups.png" alt="Logo Les Vieux Loups">
+      <span>Les Vieux Loups</span>
+    </a>
+    <ul class="nav-liens">
+      <li><a href="#meute">La Meute</a></li>
+      <li><a href="#recrutement">Recrutement</a></li>
+      <li><a href="#videos">Vidéos</a></li>
+      <li><a href="#contact">Discord</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<header class="hero">
+  <div class="hero-fond">
+    <img src="assets/banniere.png" alt="Le gang des Vieux Loups devant la Résidence Les Aulnes">
+  </div>
+  <div class="hero-contenu">
+    <img class="hero-logo" src="assets/logo-vieux-loups.png" alt="">
+    <h1 class="display">LES VIEUX LOUPS <span class="rose">DE L'EHPAD</span></h1>
+    <p class="hero-slogan">Retraités, oui... mais jamais à genoux.</p>
+    <div class="boutons">
+      <a href="#recrutement" class="btn btn-neon">🐺 Rejoindre la meute</a>
+      <a href="#videos" class="btn btn-fantome">🎬 Voir les vidéos</a>
+    </div>
+  </div>
+</header>
+
+<!-- ═══ LA MEUTE ═══ -->
+<section id="meute">
+  <div class="conteneur">
+    <h2 class="titre-section display">La <span class="rose">Meute</span></h2>
+    <p class="sous-titre">— Résidence Les Aulnes · E.H.P.A.D · Le gang le plus redouté du déambulateur —</p>
+    <div class="cartes-devise">
+      <div class="carte-devise">
+        <div class="icone">🤝</div>
+        <h3>Respect</h3>
+        <p>Ici, on respecte les anciens, le RP et l'adversaire. La violence gratuite, c'est pour les jeunots sans éducation.</p>
+      </div>
+      <div class="carte-devise">
+        <div class="icone">🎖️</div>
+        <h3>Expérience</h3>
+        <p>Des décennies de métier. On a braqué en 2CV avant que ton personnage soit né. Chaque opération est millimétrée.</p>
+      </div>
+      <div class="carte-devise">
+        <div class="icone">🐺</div>
+        <h3>Loyauté jusqu'au bout</h3>
+        <p>Un loup ne lâche jamais sa meute. Ni en garde à vue, ni à l'hôpital, ni pendant la sieste de 14h.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ RECRUTEMENT ═══ -->
+<section id="recrutement">
+  <div class="conteneur">
+    <h2 class="titre-section display">Dossier <span class="rose">d'admission</span></h2>
+    <p class="sous-titre">— Remplis ta candidature, elle part directement au conseil des Doyens sur Discord —</p>
+
+    <form class="dossier" id="formRecrutement">
+      <h3>🐺 QUESTIONNAIRE OFFICIEL</h3>
+      <p class="note">Les Vieux Loups de l'EHPAD — Service des admissions</p>
+
+      <p class="section-form">👤 Informations IRL</p>
+      <div class="champ">
+        <label for="discord">Pseudo Discord * <span class="indice">(pour te recontacter)</span></label>
+        <input type="text" id="discord" name="discord" placeholder="ex: marcel_dubois" required maxlength="60">
+      </div>
+      <div class="champ">
+        <label for="age_irl">Âge IRL (minimum 16 ans) *</label>
+        <input type="number" id="age_irl" name="age_irl" min="16" max="99" placeholder="Ton âge en vrai" required>
+      </div>
+
+      <p class="section-form">🎭 Identité RP</p>
+      <div class="champ">
+        <label for="nomrp">Nom & Prénom RP *</label>
+        <input type="text" id="nomrp" name="nomrp" placeholder="ex: Marcel Dubois" required maxlength="80">
+      </div>
+      <div class="champ">
+        <label for="photo">Photo de ton personnage (lien image)</label>
+        <input type="url" id="photo" name="photo" placeholder="Lien imgur, discord... (optionnel)" maxlength="300">
+      </div>
+      <div class="champ">
+        <label for="histoire">Histoire de ton personnage *</label>
+        <textarea id="histoire" name="histoire" placeholder="Explique en quelques lignes son passé, sa personnalité, ses objectifs..." required maxlength="900"></textarea>
+      </div>
+
+      <p class="section-form">🧠 Expérience RP</p>
+      <div class="champ">
+        <span class="label-choix">As-tu déjà fait du RP ? *</span>
+        <div class="choix" data-question="experience_rp">
+          <button type="button" class="btn-choix" data-valeur="Oui">☐ Oui</button>
+          <button type="button" class="btn-choix" data-valeur="Non">☐ Non</button>
+        </div>
+      </div>
+      <div class="champ" id="champVilles" hidden>
+        <label for="villes">Si oui, dans quelles villes ?</label>
+        <input type="text" id="villes" name="villes" placeholder="ex: FratWorld, EnjoyRP..." maxlength="200">
+      </div>
+
+      <p class="section-form">📘 Connaissance du règlement</p>
+      <div class="champ">
+        <span class="label-choix">Connais-tu le règlement de la ville ? *</span>
+        <div class="choix" data-question="reglement">
+          <button type="button" class="btn-choix" data-valeur="Oui">☐ Oui</button>
+          <button type="button" class="btn-choix" data-valeur="Non">☐ Non</button>
+        </div>
+      </div>
+
+      <p class="section-form">🐺 Notre vision</p>
+      <p class="texte-vision">Les Vieux Loups de l'EHPAD, c'est du fun, du RP propre, sans insultes, sans toxicité, sans bêtises. Nous voulons des joueurs matures, respectueux, et capables de jouer sérieusement tout en s'amusant.</p>
+      <div class="champ">
+        <span class="label-choix">Es-tu d'accord avec cette vision ? *</span>
+        <div class="choix" data-question="vision">
+          <button type="button" class="btn-choix" data-valeur="Oui">☐ Oui</button>
+          <button type="button" class="btn-choix" data-valeur="Non">☐ Non</button>
+        </div>
+      </div>
+
+      <p class="section-form">📞 Engagement RP</p>
+      <div class="champ">
+        <span class="label-choix">Es-tu prêt à respecter le RP en toutes situations ? *</span>
+        <div class="choix" data-question="respect_rp">
+          <button type="button" class="btn-choix" data-valeur="Oui">☐ Oui</button>
+          <button type="button" class="btn-choix" data-valeur="Non">☐ Non</button>
+        </div>
+      </div>
+      <div class="champ">
+        <span class="label-choix">Es-tu prêt à éviter les insultes, les comportements toxiques et les bêtises ? *</span>
+        <div class="choix" data-question="anti_toxicite">
+          <button type="button" class="btn-choix" data-valeur="Oui">☐ Oui</button>
+          <button type="button" class="btn-choix" data-valeur="Non">☐ Non</button>
+        </div>
+      </div>
+
+      <p class="section-form">🎯 Motivation</p>
+      <div class="champ">
+        <label for="motivation">Pourquoi veux-tu rejoindre Les Vieux Loups de l'EHPAD ? *</label>
+        <textarea id="motivation" name="motivation" placeholder="Ta motivation..." required maxlength="900"></textarea>
+      </div>
+
+      <p class="texte-important">🐺 <strong>Important :</strong> nous t'apprendrons tout ce que tu dois savoir, que ce soit le RP, les règles, les comportements à adopter, et la manière de jouer proprement dans la ville. Débutant bienvenu !</p>
+
+      <button type="submit" class="btn btn-neon" id="btnEnvoyer">📋 Envoyer mon questionnaire</button>
+      <div class="retour-form" id="retourForm" role="status"></div>
+    </form>
+  </div>
+</section>
+
+<!-- ═══ VIDÉOS ═══ -->
+<section id="videos">
+  <div class="conteneur">
+    <h2 class="titre-section display">Les vidéos <span class="rose">du Lead</span></h2>
+    <p class="sous-titre">— Les meilleures opérations de la meute, sur TikTok —</p>
+
+    <!-- Les vidéos sont gérées depuis Discord avec +video. Ne pas éditer à la main. -->
+    <div class="grille-videos" id="grilleVideos"></div>
+    <div id="videosVide" hidden style="text-align:center;color:var(--gris);font-family:'Special Elite',monospace;padding:20px">
+      🎬 Les vidéos arrivent bientôt !
+    </div>
+
+    <!-- ─── Bouton vers la page des streamers partenaires ─── -->
+    <div class="bloc-streamer">
+      <img src="assets/fratworld.png" alt="Logo FratWorld">
+      <div>
+        <span class="badge-partenaire">STREAMERS PARTENAIRES · FRATWORLD</span>
+        <h3 class="display">Nos streamers partenaires</h3>
+        <p>Découvre tous les streamers partenaires des Vieux Loups et retrouve-les sur leurs réseaux : TikTok, Twitch et Kick.</p>
+        <a class="btn btn-neon" href="streamers.html">🎥 Voir les streamers partenaires</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer id="contact">
+  <div class="conteneur">
+    <div class="footer-grille">
+      <div class="footer-bloc">
+        <h4>Les Vieux Loups de l'EHPAD</h4>
+        <p>Organisation GTA RP · Résidence Les Aulnes.<br>Retraités, oui... mais jamais à genoux. On mord encore — doucement, mais on mord.</p>
+      </div>
+      <div class="footer-bloc">
+        <h4>Notre Discord</h4>
+        <p>Rejoins la meute, discute avec les Doyens et suis les annonces.</p>
+        <!-- ⚠️ Remplace le lien d'invitation par celui de ton serveur -->
+        <a class="lien-discord" href="https://discord.gg/TON-INVITATION" target="_blank" rel="noopener">
+          <img src="assets/logo-vieux-loups.png" alt="">
+          <span>Discord des Vieux Loups<small>discord.gg/TON-INVITATION</small></span>
+        </a>
+      </div>
+      <div class="footer-bloc">
+        <h4>Serveur FratWorld</h4>
+        <p>Le serveur GTA RP sur lequel la meute opère.</p>
+        <!-- ⚠️ Remplace le lien par la vraie invitation FratWorld -->
+        <a class="lien-discord" href="https://discord.gg/FRATWORLD" target="_blank" rel="noopener">
+          <img src="assets/fratworld.png" alt="Logo FratWorld">
+          <span>Discord FratWorld<small>discord.gg/FRATWORLD</small></span>
+        </a>
+      </div>
+    </div>
+    <p class="footer-fin">© 2026 Les Vieux Loups de l'EHPAD — Site non affilié à Rockstar Games · Fait avec 🦽 et beaucoup de tisane</p>
+  </div>
+</footer>
+
+<script src="videos.js"></script>
+<script>
+/* ─── Rendu des vidéos TikTok d'accueil (gérées via +video sur Discord) ─── */
+(function(){
+  const grille = document.getElementById('grilleVideos');
+  const vide = document.getElementById('videosVide');
+  if (!grille) return;
+
+  function idTikTok(url) {
+    if (!url) return null;
+    const m = String(url).match(/video\/(\d+)/);
+    if (m) return m[1];
+    if (/^\d{6,}$/.test(String(url).trim())) return String(url).trim();
+    return null;
+  }
+
+  const videos = (typeof VIDEOS !== 'undefined' ? VIDEOS : []).filter(v => idTikTok(v.url));
+  if (!videos.length) {
+    grille.hidden = true;
+    if (vide) vide.hidden = false;
+    return;
+  }
+
+  videos.forEach(v => {
+    const id = idTikTok(v.url);
+    const carte = document.createElement('div');
+    carte.className = 'carte-video';
+    carte.innerHTML = `
+      <div class="ratio-tiktok">
+        <iframe src="https://www.tiktok.com/embed/v2/${id}" title="${v.titre || 'Vidéo TikTok'}" loading="lazy" allowfullscreen scrolling="no"></iframe>
+      </div>
+      <div class="legende"><h4>${v.titre || ''}</h4><p>${v.desc || ''}</p></div>
+    `;
+    grille.appendChild(carte);
+  });
+})();
+</script>
+
+<script>
+/* ═══════════════════════════════════════════════════════════
+   CONFIGURATION — À REMPLIR
+   1. Sur Discord : Paramètres du salon → Intégrations → Webhooks
+      → Nouveau webhook → Copier l'URL du webhook
+   2. Colle l'URL ci-dessous entre les guillemets
+   ═══════════════════════════════════════════════════════════ */
+const WEBHOOK_URL = "https://discord.com/api/webhooks/1529517701867901083/6lJrq3tG1akcwmuKmpVLhGRNOPepATYm2y8JKKfxiQtQL_1KmCzRIr8inJEB_reCbG4I";
+
+const form = document.getElementById('formRecrutement');
+const retour = document.getElementById('retourForm');
+const btn = document.getElementById('btnEnvoyer');
+
+/* ─── Boutons Oui/Non : 🟩 vert / 🟥 rouge ─── */
+const reponses = {}; // { question: 'Oui'|'Non' }
+
+document.querySelectorAll('.choix').forEach(groupe => {
+  const question = groupe.dataset.question;
+  groupe.querySelectorAll('.btn-choix').forEach(bouton => {
+    bouton.addEventListener('click', () => {
+      reponses[question] = bouton.dataset.valeur;
+      groupe.classList.remove('manquant');
+      groupe.querySelectorAll('.btn-choix').forEach(b => {
+        b.classList.remove('vert', 'rouge');
+        b.textContent = '☐ ' + b.dataset.valeur;
+      });
+      bouton.classList.add(bouton.dataset.valeur === 'Oui' ? 'vert' : 'rouge');
+      bouton.textContent = '☑ ' + bouton.dataset.valeur;
+
+      // Affiche/masque le champ "quelles villes"
+      if (question === 'experience_rp') {
+        document.getElementById('champVilles').hidden = bouton.dataset.valeur !== 'Oui';
+      }
+    });
+  });
+});
+
+const carre = (v) => v === 'Oui' ? '🟩 Oui' : '🟥 Non';
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  if (!WEBHOOK_URL || WEBHOOK_URL.includes('COLLE_TON')) {
+    afficher('erreur', "⚠️ Le webhook Discord n'est pas encore configuré. Préviens le staff !");
+    return;
+  }
+
+  // Vérifie que toutes les questions Oui/Non ont une réponse
+  const questions = ['experience_rp', 'reglement', 'vision', 'respect_rp', 'anti_toxicite'];
+  let manque = false;
+  questions.forEach(q => {
+    if (!reponses[q]) {
+      document.querySelector(`.choix[data-question="${q}"]`).classList.add('manquant');
+      manque = true;
+    }
+  });
+  if (manque) {
+    afficher('erreur', '⚠️ Réponds à toutes les questions Oui/Non (encadrées en rouge).');
+    return;
+  }
+
+  const donnees = Object.fromEntries(new FormData(form));
+  btn.disabled = true;
+  btn.textContent = '⏳ Envoi du questionnaire...';
+
+  const experienceTexte = reponses.experience_rp === 'Oui'
+    ? `🟩 Oui${donnees.villes ? ' — Villes : ' + donnees.villes : ''}`
+    : '🟥 Non (débutant — on lui apprendra tout 🐺)';
+
+  const embedPrincipal = {
+    title: "🐺 Questionnaire Officiel — Nouvelle candidature (site web)",
+    color: 0xE31FBF,
+    fields: [
+      { name: "👤 Pseudo Discord", value: donnees.discord, inline: true },
+      { name: "👤 Âge IRL", value: `${donnees.age_irl} ans`, inline: true },
+      { name: "🎭 Nom & Prénom RP", value: donnees.nomrp },
+      { name: "📖 Histoire du personnage", value: donnees.histoire.slice(0, 1024) },
+      { name: "🧠 A déjà fait du RP", value: experienceTexte },
+      { name: "📘 Règlement de la ville", value: carre(reponses.reglement), inline: true },
+      { name: "🐺 D'accord avec la vision", value: carre(reponses.vision), inline: true },
+      { name: "🎭 Respect du RP", value: carre(reponses.respect_rp), inline: true },
+      { name: "🤝 Anti-toxicité", value: carre(reponses.anti_toxicite), inline: true },
+      { name: "🎯 Motivation", value: donnees.motivation.slice(0, 1024) }
+    ],
+    footer: { text: "Les Vieux Loups de l'EHPAD — questionnaire du site" },
+    timestamp: new Date().toISOString()
+  };
+
+  if (donnees.photo && donnees.photo.startsWith('http')) {
+    embedPrincipal.image = { url: donnees.photo };
+  }
+
+  try {
+    const rep = await fetch(WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username: "Registre des admissions 🐺", embeds: [embedPrincipal] })
+    });
+    if (!rep.ok) throw new Error('HTTP ' + rep.status);
+    afficher('ok', "✅ Questionnaire transmis au conseil des Doyens ! On te recontacte sur Discord après la sieste. 🐺");
+    form.reset();
+    document.querySelectorAll('.btn-choix').forEach(b => { b.classList.remove('vert','rouge'); b.textContent = '☐ ' + b.dataset.valeur; });
+    Object.keys(reponses).forEach(k => delete reponses[k]);
+    document.getElementById('champVilles').hidden = true;
+  } catch (err) {
+    afficher('erreur', "❌ L'envoi a échoué. Réessaie dans un instant, ou contacte le staff sur Discord.");
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '📋 Envoyer mon questionnaire';
+  }
+});
+
+function afficher(type, message) {
+  retour.className = 'retour-form ' + type;
+  retour.textContent = message;
+  retour.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+</script>
+</body>
+</html>
