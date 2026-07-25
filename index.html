@@ -417,7 +417,7 @@ body>nav,body>header,body>section,body>footer{position:relative;z-index:1}
     <!-- Compteur animé -->
     <div class="stats-meute">
       <div class="stat-bloc">
-        <div class="stat-nombre" data-cible="27">0</div>
+        <div class="stat-nombre" id="compteur-membres" data-cible="27">0</div>
         <div class="stat-label">MEMBRES DANS LA MEUTE</div>
       </div>
       <div class="stat-bloc">
@@ -828,6 +828,7 @@ function afficher(type, message) {
       const val = Math.floor((1 - Math.pow(1 - p, 3)) * cible); // easing
       el.textContent = val + (p === 1 ? suffixe : '');
       if (p < 1) requestAnimationFrame(frame);
+      else el.dataset.anime = 'ok'; // marque la fin (pour maj tardive via stats.js)
     }
     requestAnimationFrame(frame);
   }
@@ -863,6 +864,26 @@ function afficher(type, message) {
   s.src = 'candidatures.js?t=' + Date.now();
   s.onload = () => appliquer(window.CANDIDATURES === true);
   s.onerror = () => appliquer(false); // fichier absent → fermées par défaut
+  document.head.appendChild(s);
+})();
+</script>
+<script>
+/* ═══ Stats en direct (lit stats.js généré par le bot) ═══ */
+(function(){
+  const el = document.getElementById('compteur-membres');
+  if (!el) return;
+  const s = document.createElement('script');
+  s.src = 'stats.js?t=' + Date.now(); // cache-busting
+  s.onload = () => {
+    if (window.STATS && typeof window.STATS.membres === 'number'){
+      el.dataset.cible = window.STATS.membres;
+      // Si l'animation est déjà passée, on met à jour directement
+      if (el.textContent !== '0' && el.dataset.anime === 'ok'){
+        el.textContent = window.STATS.membres;
+      }
+    }
+  };
+  s.onerror = () => {}; // fichier absent → on garde la valeur par défaut
   document.head.appendChild(s);
 })();
 </script>
