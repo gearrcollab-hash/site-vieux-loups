@@ -305,9 +305,47 @@ body>nav,body>header,body>section,body>footer{position:relative;z-index:1}
   background:linear-gradient(180deg,#fff,#E31FBF);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
 }
 .stat-label{margin-top:10px;font-family:'Special Elite',monospace;color:var(--gris);font-size:.85rem;letter-spacing:.05em}
+
+/* ═══ Bandeau candidatures ═══ */
+#bandeau-candidatures{
+  position:sticky;top:0;z-index:200;
+  display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;
+  padding:10px 18px;font-family:'Special Elite',monospace;font-size:.95rem;
+  transition:background .4s,box-shadow .4s;
+}
+#bandeau-candidatures .pastille{
+  width:11px;height:11px;border-radius:50%;display:inline-block;flex:none;
+}
+#bandeau-candidatures .bandeau-cta{
+  text-decoration:none;font-weight:bold;padding:4px 14px;border-radius:20px;
+  transition:transform .2s,filter .2s;color:#0A0A14;
+}
+#bandeau-candidatures .bandeau-cta:hover{transform:translateY(-1px);filter:brightness(1.1)}
+/* Ouvertes */
+#bandeau-candidatures.ouvert{
+  background:linear-gradient(90deg,rgba(46,204,113,.18),rgba(46,204,113,.30),rgba(46,204,113,.18));
+  color:#8affc0;box-shadow:0 2px 20px rgba(46,204,113,.25);
+}
+#bandeau-candidatures.ouvert .pastille{background:#2ECC71;box-shadow:0 0 10px #2ECC71;animation:pulse 1.6s infinite}
+#bandeau-candidatures.ouvert .bandeau-cta{background:#2ECC71}
+/* Fermées */
+#bandeau-candidatures.ferme{
+  background:linear-gradient(90deg,rgba(231,76,60,.15),rgba(231,76,60,.24),rgba(231,76,60,.15));
+  color:#ff9d94;box-shadow:0 2px 20px rgba(231,76,60,.18);
+}
+#bandeau-candidatures.ferme .pastille{background:#E74C3C;box-shadow:0 0 10px #E74C3C}
+#bandeau-candidatures.ferme .bandeau-cta{display:none}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 </style>
 </head>
 <body>
+
+<!-- ═══ BANDEAU CANDIDATURES (piloté depuis Discord) ═══ -->
+<div id="bandeau-candidatures" class="ferme">
+  <span class="pastille"></span>
+  <span class="bandeau-texte">Chargement…</span>
+  <a href="#recrutement" class="bandeau-cta">Postuler →</a>
+</div>
 
 <!-- ═══ INTRO ANIMÉE ═══ -->
 <div id="intro">
@@ -801,6 +839,31 @@ function afficher(type, message) {
   }, { threshold: 0.5 });
 
   compteurs.forEach(c => obs.observe(c));
+})();
+</script>
+<script>
+/* ═══ Bandeau candidatures (lit candidatures.js généré par le bot) ═══ */
+(function(){
+  const bandeau = document.getElementById('bandeau-candidatures');
+  if (!bandeau) return;
+  const texte = bandeau.querySelector('.bandeau-texte');
+
+  function appliquer(ouvert){
+    if (ouvert){
+      bandeau.classList.add('ouvert'); bandeau.classList.remove('ferme');
+      texte.textContent = '📢 CANDIDATURES OUVERTES — La meute recrute !';
+    } else {
+      bandeau.classList.add('ferme'); bandeau.classList.remove('ouvert');
+      texte.textContent = '🔒 CANDIDATURES FERMÉES pour le moment — reviens bientôt.';
+    }
+  }
+
+  // On charge candidatures.js (généré par le bot). Cache-busting avec la date.
+  const s = document.createElement('script');
+  s.src = 'candidatures.js?t=' + Date.now();
+  s.onload = () => appliquer(window.CANDIDATURES === true);
+  s.onerror = () => appliquer(false); // fichier absent → fermées par défaut
+  document.head.appendChild(s);
 })();
 </script>
 </body>
