@@ -249,8 +249,78 @@ footer{background:#07070F;border-top:1px solid rgba(139,63,232,.3);padding:60px 
   html{scroll-behavior:auto}
 }
 </style>
+<style>
+/* ═══ Intro animée ═══ */
+#intro{
+  position:fixed;inset:0;z-index:9999;
+  background:radial-gradient(circle at 50% 45%,#1a0d2e 0%,#0A0A14 70%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;
+  animation:introSortie .9s ease 2.6s forwards;
+}
+.intro-loup{position:relative;width:150px;height:150px;display:flex;align-items:center;justify-content:center}
+.intro-loup img{
+  width:110px;height:110px;object-fit:contain;
+  filter:drop-shadow(0 0 22px rgba(227,31,191,.8));
+  animation:introLogo 1.2s cubic-bezier(.2,.8,.2,1) both;
+}
+.intro-anneau{
+  position:absolute;inset:0;border-radius:50%;
+  border:3px solid transparent;border-top-color:#E31FBF;border-right-color:#8B3FE8;
+  animation:introTourne 1s linear infinite;
+}
+.intro-texte{
+  font-family:'Rubik Dirt','Special Elite',cursive;font-size:2rem;letter-spacing:.08em;
+  color:#E8E2D5;text-shadow:0 0 18px rgba(227,31,191,.6);
+  opacity:0;animation:introFade .8s ease .7s forwards;
+}
+.intro-sous{
+  font-family:'Special Elite',monospace;color:#8B3FE8;letter-spacing:.3em;font-size:.9rem;
+  opacity:0;animation:introFade .8s ease 1s forwards;
+}
+@keyframes introLogo{0%{transform:scale(.3) rotate(-25deg);opacity:0}60%{transform:scale(1.12) rotate(6deg);opacity:1}100%{transform:scale(1) rotate(0)}}
+@keyframes introTourne{to{transform:rotate(360deg)}}
+@keyframes introFade{to{opacity:1}}
+@keyframes introSortie{to{opacity:0;visibility:hidden;pointer-events:none}}
+@media(prefers-reduced-motion:reduce){#intro{animation:introSortie .3s ease .3s forwards}.intro-loup img,.intro-texte,.intro-sous{animation:introFade .3s ease forwards}.intro-anneau{display:none}}
+
+/* ═══ Particules néon ═══ */
+#particules{
+  position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.55;
+}
+body>nav,body>header,body>section,body>footer{position:relative;z-index:1}
+
+/* ═══ Compteur animé ═══ */
+.stats-meute{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:30px;margin:44px auto 0;max-width:900px;
+}
+.stat-bloc{
+  flex:1 1 180px;max-width:220px;text-align:center;
+  background:rgba(139,63,232,.06);border:1px solid rgba(139,63,232,.28);border-radius:14px;padding:26px 18px;
+  transition:transform .25s,border-color .25s,box-shadow .25s;
+}
+.stat-bloc:hover{transform:translateY(-6px);border-color:var(--magenta);box-shadow:0 14px 40px rgba(227,31,191,.22)}
+.stat-nombre{
+  font-family:'Rubik Dirt','Special Elite',cursive;font-size:2.6rem;line-height:1;
+  color:#fff;text-shadow:0 0 16px rgba(227,31,191,.55);
+  background:linear-gradient(180deg,#fff,#E31FBF);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+.stat-label{margin-top:10px;font-family:'Special Elite',monospace;color:var(--gris);font-size:.85rem;letter-spacing:.05em}
+</style>
 </head>
 <body>
+
+<!-- ═══ INTRO ANIMÉE ═══ -->
+<div id="intro">
+  <div class="intro-loup">
+    <img src="assets/logo-vieux-loups.png" alt="">
+    <div class="intro-anneau"></div>
+  </div>
+  <div class="intro-texte">LES VIEUX LOUPS</div>
+  <div class="intro-sous">— DE L'EHPAD —</div>
+</div>
+
+<!-- ═══ PARTICULES NÉON (fond) ═══ -->
+<canvas id="particules"></canvas>
 
 <nav>
   <div class="conteneur">
@@ -303,6 +373,26 @@ footer{background:#07070F;border-top:1px solid rgba(139,63,232,.3);padding:60px 
         <div class="icone">🐺</div>
         <h3>Loyauté jusqu'au bout</h3>
         <p>Un loup ne lâche jamais sa meute. Ni en garde à vue, ni à l'hôpital, ni pendant la sieste de 14h.</p>
+      </div>
+    </div>
+
+    <!-- Compteur animé -->
+    <div class="stats-meute">
+      <div class="stat-bloc">
+        <div class="stat-nombre" data-cible="27">0</div>
+        <div class="stat-label">MEMBRES DANS LA MEUTE</div>
+      </div>
+      <div class="stat-bloc">
+        <div class="stat-nombre" data-cible="3">0</div>
+        <div class="stat-label">ANNÉES D'EXISTENCE</div>
+      </div>
+      <div class="stat-bloc">
+        <div class="stat-nombre" data-cible="142" data-suffixe="+">0</div>
+        <div class="stat-label">OPÉRATIONS MENÉES</div>
+      </div>
+      <div class="stat-bloc">
+        <div class="stat-nombre" data-cible="8">0</div>
+        <div class="stat-label">TERRITOIRES TENUS</div>
       </div>
     </div>
   </div>
@@ -514,7 +604,7 @@ footer{background:#07070F;border-top:1px solid rgba(139,63,232,.3);padding:60px 
       → Nouveau webhook → Copier l'URL du webhook
    2. Colle l'URL ci-dessous entre les guillemets
    ═══════════════════════════════════════════════════════════ */
-const WEBHOOK_URL = "https://discord.com/api/webhooks/1529549068781490310/LoWAG9KmGkJlU6yDqgRHgcFIuAVhQSuZJ3u50Ae1Os1qlZOu3GrrLtD-3hHu8oTpSpFC";
+const WEBHOOK_URL = "COLLE_TON_URL_DE_WEBHOOK_ICI";
 
 const form = document.getElementById('formRecrutement');
 const retour = document.getElementById('retourForm');
@@ -624,6 +714,94 @@ function afficher(type, message) {
   retour.textContent = message;
   retour.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
+</script>
+<script>
+/* ═══ Particules néon en fond ═══ */
+(function(){
+  const canvas = document.getElementById('particules');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let l, h, particules = [];
+  const COULEURS = ['#E31FBF', '#8B3FE8', '#25F4EE'];
+  const reduit = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function dimensionner(){
+    l = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+    const nb = Math.min(70, Math.floor(l * h / 26000));
+    particules = [];
+    for (let i = 0; i < nb; i++){
+      particules.push({
+        x: Math.random() * l, y: Math.random() * h,
+        r: Math.random() * 2 + 0.6,
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: (Math.random() - 0.5) * 0.35,
+        c: COULEURS[Math.floor(Math.random() * COULEURS.length)]
+      });
+    }
+  }
+
+  function dessiner(){
+    ctx.clearRect(0, 0, l, h);
+    // liens entre particules proches
+    for (let i = 0; i < particules.length; i++){
+      const a = particules[i];
+      for (let j = i + 1; j < particules.length; j++){
+        const b = particules[j];
+        const d = Math.hypot(a.x - b.x, a.y - b.y);
+        if (d < 130){
+          ctx.strokeStyle = a.c;
+          ctx.globalAlpha = (1 - d / 130) * 0.18;
+          ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+        }
+      }
+    }
+    // points
+    ctx.globalAlpha = 1;
+    for (const p of particules){
+      ctx.fillStyle = p.c;
+      ctx.shadowBlur = 8; ctx.shadowColor = p.c;
+      ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0 || p.x > l) p.vx *= -1;
+      if (p.y < 0 || p.y > h) p.vy *= -1;
+    }
+    ctx.shadowBlur = 0;
+    if (!reduit) requestAnimationFrame(dessiner);
+  }
+
+  dimensionner();
+  dessiner();
+  window.addEventListener('resize', dimensionner);
+})();
+
+/* ═══ Compteur animé (se lance quand visible) ═══ */
+(function(){
+  const compteurs = document.querySelectorAll('.stat-nombre[data-cible]');
+  if (!compteurs.length) return;
+
+  function animer(el){
+    const cible = parseInt(el.dataset.cible, 10) || 0;
+    const suffixe = el.dataset.suffixe || '';
+    const duree = 1600;
+    const debut = performance.now();
+    function frame(maintenant){
+      const p = Math.min((maintenant - debut) / duree, 1);
+      const val = Math.floor((1 - Math.pow(1 - p, 3)) * cible); // easing
+      el.textContent = val + (p === 1 ? suffixe : '');
+      if (p < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting){ animer(e.target); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.5 });
+
+  compteurs.forEach(c => obs.observe(c));
+})();
 </script>
 </body>
 </html>
