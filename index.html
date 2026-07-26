@@ -364,6 +364,52 @@ body>nav,body>header,body>section,body>footer{position:relative;z-index:1}
   font-family:'Special Elite',monospace;font-size:.8rem;padding:4px 12px;border-radius:20px;
 }
 
+/* ═══ Histoire / Timeline ═══ */
+.lore-intro{
+  max-width:760px;margin:30px auto 50px;text-align:center;
+  font-size:1.08rem;line-height:1.75;color:var(--craie);
+}
+.lore-intro strong{color:var(--magenta)}
+.timeline{
+  position:relative;max-width:760px;margin:0 auto;padding-left:10px;
+}
+/* La ligne verticale */
+.timeline::before{
+  content:'';position:absolute;left:29px;top:10px;bottom:10px;width:2px;
+  background:linear-gradient(180deg,var(--magenta),var(--violet),transparent);
+}
+.timeline-item{
+  position:relative;display:flex;gap:24px;padding:0 0 38px 0;
+}
+.timeline-item:last-child{padding-bottom:0}
+.timeline-marqueur{
+  flex:none;width:60px;height:60px;border-radius:50%;z-index:1;
+  display:flex;align-items:center;justify-content:center;font-size:1.6rem;
+  background:radial-gradient(circle,#1a0d2e,#0e0b18);
+  border:2px solid var(--magenta);box-shadow:0 0 18px rgba(227,31,191,.4);
+}
+.timeline-contenu{
+  flex:1;background:rgba(139,63,232,.06);border:1px solid rgba(139,63,232,.24);
+  border-radius:14px;padding:20px 24px;transition:transform .25s,border-color .25s;
+}
+.timeline-item:hover .timeline-contenu{transform:translateX(6px);border-color:var(--magenta)}
+.timeline-date{
+  font-family:'Special Elite',monospace;font-size:.75rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--magenta);
+}
+.timeline-contenu h3{
+  font-family:'Rubik Dirt','Special Elite',cursive;color:#fff;
+  font-size:1.3rem;margin:6px 0 10px;line-height:1.2;
+}
+.timeline-contenu p{color:var(--craie);line-height:1.65;margin:0}
+.timeline-contenu strong{color:#e88fff}
+.timeline-contenu em{color:var(--magenta);font-style:italic}
+@media(max-width:600px){
+  .timeline-marqueur{width:48px;height:48px;font-size:1.3rem}
+  .timeline::before{left:23px}
+  .timeline-item{gap:16px}
+}
+
 /* ═══ Bandeau candidatures ═══ */
 #bandeau-candidatures{
   position:sticky;top:0;z-index:200;
@@ -426,6 +472,7 @@ body>nav,body>header,body>section,body>footer{position:relative;z-index:1}
     </a>
     <ul class="nav-liens">
       <li><a href="#meute">La Meute</a></li>
+      <li><a href="#histoire">Histoire</a></li>
       <li><a href="#operations">Opérations</a></li>
       <li><a href="#recrutement">Recrutement</a></li>
       <li><a href="#videos">Vidéos</a></li>
@@ -489,6 +536,65 @@ body>nav,body>header,body>section,body>footer{position:relative;z-index:1}
         <div class="stat-label">OPÉRATIONS MENÉES</div>
         <div class="stat-cliquable">👆 Cliquez pour voir</div>
       </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ HISTOIRE / LORE ═══ -->
+<section id="histoire">
+  <div class="conteneur">
+    <h2 class="titre-section display">Notre <span class="rose">histoire</span></h2>
+    <p class="sous-titre">— Comment une poignée de retraités est devenue la meute la plus redoutée de la ville —</p>
+
+    <div class="lore-intro">
+      <p>Tout a commencé un premier du mois. La pension était tombée, et comme chaque mois, elle avait fondu avant même d'arriver. Le loyer de la chambre médicalisée, les médicaments, le tabac de contrebande... il ne restait rien. <strong>« On a bossé toute notre vie pour ça ? »</strong> Cette phrase, murmurée dans la salle commune de la Résidence Les Aulnes, allait tout changer.</p>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-marqueur">💰</div>
+        <div class="timeline-contenu">
+          <span class="timeline-date">Le déclic</span>
+          <h3>La pension ne suffisait plus</h3>
+          <p>Papy Jean Luc en avait assez de choisir entre manger et se chauffer. Assis dans son fauteuil, il a fait le calcul : à ce rythme, il serait mort de faim avant l'hiver. Il fallait trouver <strong>une autre source de revenus</strong>. Et vite.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-marqueur">🧠</div>
+        <div class="timeline-contenu">
+          <span class="timeline-date">L'idée de génie</span>
+          <h3>« Personne ne se méfie d'un vieux »</h3>
+          <p>C'est là qu'est né le plan. Qui soupçonnerait des retraités en déambulateur ? Personne ne fouille une mamie, personne ne court après un papy. Leur âge, qu'ils croyaient être une faiblesse, était en réalité <strong>leur meilleure arme</strong>. Le crime parfait avait un visage ridé.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-marqueur">🐺</div>
+        <div class="timeline-contenu">
+          <span class="timeline-date">La naissance de la meute</span>
+          <h3>Les Vieux Loups de l'EHPAD</h3>
+          <p>Un par un, ils se sont réunis. L'ancien mécano, l'ex-comptable, la retraitée qui tirait mieux que n'importe quel jeune. Chacun avait un talent, chacun avait une raison. Ensemble, ils ont formé une meute — <strong>parce qu'un loup seul meurt, mais une meute règne.</strong></p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-marqueur">🔥</div>
+        <div class="timeline-contenu">
+          <span class="timeline-date">Le premier coup</span>
+          <h3>Le braquage qui a tout lancé</h3>
+          <p>Leur premier casse ? Un carton. Pendant que la police cherchait des jeunes en cagoule, la meute rentrait tranquillement à la résidence pour la sieste de 14h. <strong>Alibi parfait, magot dans le déambulateur.</strong> Ce jour-là, la légende était née.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-marqueur">👑</div>
+        <div class="timeline-contenu">
+          <span class="timeline-date">Aujourd'hui</span>
+          <h3>La meute règne</h3>
+          <p>De simples retraités oubliés par le système, ils sont devenus une organisation crainte et respectée. Ils ne braquent plus par nécessité, mais par <strong>fierté</strong>. Parce qu'à l'EHPAD des Vieux Loups, on a une devise : <em>retraités, oui... mais jamais à genoux.</em></p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
