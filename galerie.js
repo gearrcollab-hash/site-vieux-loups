@@ -5,6 +5,7 @@
 // ═══════════════════════════════════════════════════════════
 
 const GALERIE = [
+  {"url":"https://cdn.discordapp.com/attachments/1529547815385305098/1530764702861234296/image.png?ex=6a66c339&is=6a6571b9&hm=f95f242045969d8270a663ab7b49d88ef629243b708a807e30bb6efde595114e&","auteur":"gear_ontop","date":"2026-07-26T02:32:25.613Z","legende":"mon site pour le groupe a percer mdre","album":null},
   {"url":"https://cdn.discordapp.com/attachments/1530758550282965113/1530762447537831936/IMG_7990.gif?ex=6a66c11f&is=6a656f9f&hm=0de27bf530626894e887e7c890ef3342dc94fe065d8db0685c9a170e335ce45d&","auteur":"gear_ontop","date":"2026-07-26T02:23:27.960Z","legende":"","album":null},
   {"url":"https://cdn.discordapp.com/attachments/1529547797966360886/1530742397586116780/image.png?ex=6a66ae73&is=6a655cf3&hm=950bdc11bb5ed08643d0c5220d85a0a0b58732477b8c0b9683aaa21fe666eadf&","auteur":"gear_ontop","date":"2026-07-26T01:03:50.024Z","legende":"","album":"1530742397942628353"},
   {"url":"https://cdn.discordapp.com/attachments/1529547797966360886/1530733558669246674/image.png?ex=6a66a638&is=6a6554b8&hm=bcc7d1ddf72eacb186a6e4ac7aa5621f2c7aba7451070b8aacf5d22f26f10bc7&","auteur":"gear_ontop","date":"2026-07-26T00:28:40.320Z","legende":"","album":null},
