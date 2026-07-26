@@ -306,6 +306,15 @@ body>nav,body>header,body>section,body>footer{position:relative;z-index:1}
 }
 .stat-label{margin-top:10px;font-family:'Special Elite',monospace;color:var(--gris);font-size:.85rem;letter-spacing:.05em}
 
+/* Bloc opérations cliquable */
+.stat-bloc-lien{text-decoration:none;display:block;cursor:pointer}
+.stat-bloc-lien .stat-cliquable{
+  margin-top:10px;font-family:'Special Elite',monospace;font-size:.72rem;
+  color:var(--magenta);opacity:0;transform:translateY(4px);transition:opacity .25s,transform .25s;
+}
+.stat-bloc-lien:hover .stat-cliquable{opacity:1;transform:translateY(0)}
+.stat-bloc-lien:hover{border-color:var(--magenta)}
+
 /* ═══ Grille des opérations ═══ */
 .grille-operations{
   display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:22px;margin-top:36px;
@@ -475,10 +484,11 @@ body>nav,body>header,body>section,body>footer{position:relative;z-index:1}
         <div class="stat-nombre" id="compteur-annees" data-cible="0">0</div>
         <div class="stat-label">ANNÉES D'EXISTENCE</div>
       </div>
-      <div class="stat-bloc">
+      <a href="#operations" class="stat-bloc stat-bloc-lien" title="Voir toutes nos opérations">
         <div class="stat-nombre" id="compteur-operations" data-cible="0">0</div>
         <div class="stat-label">OPÉRATIONS MENÉES</div>
-      </div>
+        <div class="stat-cliquable">👆 Cliquez pour voir</div>
+      </a>
     </div>
   </div>
 </section>
