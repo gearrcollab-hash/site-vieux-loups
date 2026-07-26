@@ -58,6 +58,41 @@ header.hero-page p{color:var(--gris);font-family:'Special Elite',monospace;margi
 .carte-photo .btn-supprimer:hover{background:#C0392B;border-color:#C0392B}
 .carte-photo:hover .legende{opacity:1}
 
+/* Album (plusieurs photos postées ensemble) */
+.carte-photo.album{
+  box-shadow:
+    6px 6px 0 -2px var(--nuit), 6px 6px 0 -1px rgba(139,63,232,.35),
+    12px 12px 0 -4px var(--nuit), 12px 12px 0 -3px rgba(139,63,232,.22);
+}
+.badge-album{
+  position:absolute;top:8px;right:8px;z-index:2;
+  background:rgba(6,6,12,.75);border:1px solid rgba(227,31,191,.55);
+  color:var(--craie);font-size:.78rem;font-weight:700;
+  padding:4px 10px;border-radius:20px;pointer-events:none;
+}
+
+/* Lightbox : navigation, compteur, suppression */
+.lightbox-nav{
+  position:absolute;top:50%;transform:translateY(-50%);
+  width:46px;height:46px;border-radius:50%;
+  background:rgba(6,6,12,.65);border:1px solid rgba(227,31,191,.5);color:var(--craie);
+  font-size:1.5rem;line-height:1;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .2s;
+}
+.lightbox-nav:hover{background:rgba(139,63,232,.5)}
+.lightbox-prec{left:16px}
+.lightbox-suiv{right:16px}
+.lightbox-compteur{
+  position:absolute;top:24px;left:50%;transform:translateX(-50%);
+  color:var(--gris);font-family:'Special Elite',monospace;font-size:.85rem;
+}
+.lightbox-supprimer{
+  position:absolute;top:20px;left:28px;background:none;border:none;
+  color:var(--craie);font-size:1.25rem;cursor:pointer;opacity:.85;
+}
+.lightbox-supprimer:hover{opacity:1;color:var(--magenta)}
+
 .vide{text-align:center;padding:80px 20px;color:var(--gris)}
 .vide h2{font-family:'Rubik Dirt',cursive;color:var(--magenta);margin-bottom:12px}
 
@@ -103,8 +138,12 @@ footer{background:#07070F;border-top:1px solid rgba(139,63,232,.3);padding:30px 
 </main>
 
 <div class="lightbox" id="lightbox">
+  <button class="lightbox-supprimer" id="supprimerLightbox" title="Supprimer cette photo" aria-label="Supprimer cette photo">🗑️</button>
+  <div class="lightbox-compteur" id="lightboxCompteur" hidden></div>
   <button class="lightbox-fermer" id="fermerLightbox" aria-label="Fermer">✕</button>
+  <button class="lightbox-nav lightbox-prec" id="lightboxPrec" aria-label="Photo précédente" hidden>‹</button>
   <img id="lightboxImg" src="" alt="">
+  <button class="lightbox-nav lightbox-suiv" id="lightboxSuiv" aria-label="Photo suivante" hidden>›</button>
   <div class="legende-lb" id="lightboxLegende"></div>
 </div>
 
@@ -127,26 +166,54 @@ function echapperHTML(txt) {
   return div.innerHTML;
 }
 
-function creerCarte(p) {
+// Regroupe les photos par album (même id = postées dans le même message Discord).
+// Les photos sans album restent seules dans leur propre groupe.
+function grouperParAlbum(photos) {
+  const groupes = [];
+  const index = new Map();
+  for (const p of photos) {
+    if (p.album) {
+      let g = index.get(p.album);
+      if (!g) {
+        g = { photos: [] };
+        index.set(p.album, g);
+        groupes.push(g);
+      }
+      g.photos.push(p);
+    } else {
+      groupes.push({ photos: [p] });
+    }
+  }
+  return groupes;
+}
+
+function creerCarte(groupe) {
   const carte = document.createElement('div');
-  carte.className = 'carte-photo';
-  const auteurSafe = echapperHTML(p.auteur || 'Membre');
-  const legendeSafe = echapperHTML(p.legende || '');
-  const legendeTexte = legendeSafe ? `<span class="texte-legende">${legendeSafe}</span><br>` : '';
-  carte.innerHTML = `
-    <button class="btn-supprimer" title="Supprimer cette photo" aria-label="Supprimer cette photo">🗑️</button>
-    <img src="${p.url}" alt="${legendeSafe || 'Photo postée par ' + auteurSafe}" loading="lazy">
-    <div class="legende">${legendeTexte}📸 ${auteurSafe} · ${formaterDate(p.date)}</div>
-  `;
-  carte.querySelector('img').addEventListener('click', () => ouvrirLightbox(p));
-  carte.querySelector('.btn-supprimer').addEventListener('click', (e) => {
-    e.stopPropagation();
-    demanderSuppression(p, carte);
-  });
+  const estAlbum = groupe.photos.length > 1;
+  carte.className = 'carte-photo' + (estAlbum ? ' album' : '');
+  majCarte(carte, groupe);
+  carte.addEventListener('click', () => ouvrirLightbox(groupe, 0));
+  groupe.carte = carte;
   return carte;
 }
 
-async function demanderSuppression(p, carte) {
+// (Re)construit le contenu visuel d'une carte à partir de la 1ère photo du groupe.
+function majCarte(carte, groupe) {
+  const p = groupe.photos[0];
+  const auteurSafe = echapperHTML(p.auteur || 'Membre');
+  const legendeSafe = echapperHTML(p.legende || '');
+  const legendeTexte = legendeSafe ? `<span class="texte-legende">${legendeSafe}</span><br>` : '';
+  const badge = groupe.photos.length > 1 ? `<div class="badge-album">🗂️ ${groupe.photos.length}</div>` : '';
+  carte.innerHTML = `
+    ${badge}
+    <img src="${p.url}" alt="${legendeSafe || 'Photo postée par ' + auteurSafe}" loading="lazy">
+    <div class="legende">${legendeTexte}📸 ${auteurSafe} · ${formaterDate(p.date)}</div>
+  `;
+  carte.classList.toggle('album', groupe.photos.length > 1);
+}
+
+// onSuccess est appelé après une suppression confirmée côté serveur.
+async function demanderSuppression(photoUrl, onSuccess) {
   const motDePasse = prompt('Mot de passe pour supprimer cette photo :');
   if (motDePasse === null) return; // annulé
 
@@ -154,16 +221,12 @@ async function demanderSuppression(p, carte) {
     const rep = await fetch('/api/galerie-supprimer', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ motDePasse, photoUrl: p.url })
+      body: JSON.stringify({ motDePasse, photoUrl })
     });
     const data = await rep.json();
 
     if (data.ok) {
-      carte.remove();
-      if (!grille.children.length) {
-        grille.hidden = true;
-        vide.hidden = false;
-      }
+      onSuccess();
     } else {
       alert('❌ ' + (data.erreur || 'Suppression impossible.'));
     }
@@ -175,25 +238,92 @@ async function demanderSuppression(p, carte) {
 const lightbox = document.getElementById('lightbox');
 const lightboxImg = document.getElementById('lightboxImg');
 const lightboxLegende = document.getElementById('lightboxLegende');
+const lightboxCompteur = document.getElementById('lightboxCompteur');
+const lightboxPrec = document.getElementById('lightboxPrec');
+const lightboxSuiv = document.getElementById('lightboxSuiv');
+const supprimerLightbox = document.getElementById('supprimerLightbox');
 
-function ouvrirLightbox(p) {
+let groupeCourant = null;
+let indexCourant = 0;
+
+function ouvrirLightbox(groupe, index) {
+  groupeCourant = groupe;
+  indexCourant = index;
+  afficherPhotoCourante();
+  lightbox.classList.add('ouvert');
+}
+
+function afficherPhotoCourante() {
+  const p = groupeCourant.photos[indexCourant];
   lightboxImg.src = p.url;
   const legendeSafe = echapperHTML(p.legende || '');
   const auteurSafe = echapperHTML(p.auteur || 'Membre');
   lightboxLegende.innerHTML = (legendeSafe ? `${legendeSafe}<br>` : '') + `📸 ${auteurSafe} · ${formaterDate(p.date)}`;
-  lightbox.classList.add('ouvert');
+  const multi = groupeCourant.photos.length > 1;
+  lightboxPrec.hidden = !multi;
+  lightboxSuiv.hidden = !multi;
+  lightboxCompteur.hidden = !multi;
+  if (multi) lightboxCompteur.textContent = `${indexCourant + 1} / ${groupeCourant.photos.length}`;
 }
-function fermerLightbox() { lightbox.classList.remove('ouvert'); lightboxImg.src = ''; }
+
+function photoPrecedente() {
+  if (!groupeCourant) return;
+  indexCourant = (indexCourant - 1 + groupeCourant.photos.length) % groupeCourant.photos.length;
+  afficherPhotoCourante();
+}
+function photoSuivante() {
+  if (!groupeCourant) return;
+  indexCourant = (indexCourant + 1) % groupeCourant.photos.length;
+  afficherPhotoCourante();
+}
+function fermerLightbox() {
+  lightbox.classList.remove('ouvert');
+  lightboxImg.src = '';
+  groupeCourant = null;
+}
 
 lightbox.addEventListener('click', (e) => { if (e.target === lightbox) fermerLightbox(); });
 document.getElementById('fermerLightbox').addEventListener('click', fermerLightbox);
-document.addEventListener('keydown', (e) => { if (e.key === 'Escape') fermerLightbox(); });
+lightboxPrec.addEventListener('click', (e) => { e.stopPropagation(); photoPrecedente(); });
+lightboxSuiv.addEventListener('click', (e) => { e.stopPropagation(); photoSuivante(); });
+document.addEventListener('keydown', (e) => {
+  if (!lightbox.classList.contains('ouvert')) return;
+  if (e.key === 'Escape') fermerLightbox();
+  if (e.key === 'ArrowLeft') photoPrecedente();
+  if (e.key === 'ArrowRight') photoSuivante();
+});
+
+supprimerLightbox.addEventListener('click', (e) => {
+  e.stopPropagation();
+  if (!groupeCourant) return;
+  const p = groupeCourant.photos[indexCourant];
+  demanderSuppression(p.url, () => {
+    groupeCourant.photos.splice(indexCourant, 1);
+
+    if (!groupeCourant.photos.length) {
+      // Plus aucune photo dans ce groupe : on retire la carte de la grille.
+      groupeCourant.carte.remove();
+      fermerLightbox();
+      if (!grille.children.length) {
+        grille.hidden = true;
+        vide.hidden = false;
+      }
+      return;
+    }
+
+    // Il reste des photos : on met à jour la vignette (badge, aperçu) et on
+    // affiche la photo suivante (ou la dernière si on supprimait la dernière).
+    majCarte(groupeCourant.carte, groupeCourant);
+    if (indexCourant >= groupeCourant.photos.length) indexCourant = groupeCourant.photos.length - 1;
+    afficherPhotoCourante();
+  });
+});
 
 const grille = document.getElementById('grilleGalerie');
 const vide = document.getElementById('messageVide');
 
 if (typeof GALERIE !== 'undefined' && GALERIE.length) {
-  GALERIE.forEach(p => grille.appendChild(creerCarte(p)));
+  grouperParAlbum(GALERIE).forEach(groupe => grille.appendChild(creerCarte(groupe)));
 } else {
   grille.hidden = true;
   vide.hidden = false;
