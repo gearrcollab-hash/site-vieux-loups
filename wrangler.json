@@ -1,7 +1,9 @@
 {
   "name": "site-vieux-loups",
   "compatibility_date": "2026-07-24",
+  "main": "worker.js",
   "assets": {
-    "directory": "./"
+    "directory": "./",
+    "binding": "ASSETS"
   }
 }
