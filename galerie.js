@@ -5,6 +5,7 @@
 // ═══════════════════════════════════════════════════════════
 
 const GALERIE = [
+  { url: "https://cdn.discordapp.com/attachments/1529547797966360886/1530733504524980385/image.png?ex=6a66a62b&is=6a6554ab&hm=57343bfc10451008c53f6a67ded54e69e8145a152273cf6bab1533921030b6fb&", auteur: "gear_ontop", date: "2026-07-26T00:28:27.431Z", legende: "" },
   { url: "https://cdn.discordapp.com/attachments/1529547797966360886/1530733489983586344/image.png?ex=6a66a627&is=6a6554a7&hm=5de3f9903bc0d012bd9eee92988ce8a9fde8ef7812cb7770f3fbf2d745f63381&", auteur: "gear_ontop", date: "2026-07-26T00:28:23.869Z", legende: "" },
   { url: "https://cdn.discordapp.com/attachments/1529547797966360886/1530733475605385296/image.png?ex=6a66a624&is=6a6554a4&hm=a0591531c61fed8c3ee76d1fc9201ee12c7c29542ee2539779315f0697a686c6&", auteur: "gear_ontop", date: "2026-07-26T00:28:20.474Z", legende: "" },
   { url: "https://cdn.discordapp.com/attachments/1529547797966360886/1530733446391926946/image.png?ex=6a66a61d&is=6a65549d&hm=beb483160dc7b2cd69d8c2685fbc9b9a9acf52864f5d9fdb84c58ee036ade5c0&", auteur: "gear_ontop", date: "2026-07-26T00:28:13.671Z", legende: "Quand tu trouves des groupes danser mdr" },
