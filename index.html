@@ -539,7 +539,7 @@ body>nav,body>header,body>section,body>footer{position:relative;z-index:1}
       </div>
       <div class="stat-bloc">
         <div class="stat-nombre" id="compteur-annees" data-cible="0">0</div>
-        <div class="stat-label">ANNÉES D'EXISTENCE</div>
+        <div class="stat-label">JOURS D'EXISTENCE</div>
       </div>
       <a href="operations.html" class="stat-bloc stat-bloc-lien" title="Voir toutes nos opérations">
         <div class="stat-nombre" id="compteur-operations" data-cible="0">0</div>
@@ -1000,11 +1000,11 @@ function afficher(type, message) {
 
 /* ═══ Années d'existence (calcul auto) + nombre d'opérations ═══ */
 (function(){
-  // Années depuis le timestamp de création (1782652555 = date de fondation)
-  const DEBUT = 1782652555; // timestamp Unix en secondes
-  const annees = Math.max(0, Math.floor((Date.now()/1000 - DEBUT) / (365.25*24*3600)));
+  // Jours depuis la fondation (28 juin 2026 15:15 = 1782652500)
+  const DEBUT = 1782652500; // timestamp Unix en secondes
+  const jours = Math.max(1, Math.floor((Date.now()/1000 - DEBUT) / (24*3600)));
   const elAnnees = document.getElementById('compteur-annees');
-  if (elAnnees) elAnnees.dataset.cible = annees < 1 ? 1 : annees; // au moins 1 an affiché
+  if (elAnnees) elAnnees.dataset.cible = jours; // nombre de jours d'existence
 
   // Nombre d'opérations : on charge operations.js UNE SEULE FOIS
   const s = document.createElement('script');
