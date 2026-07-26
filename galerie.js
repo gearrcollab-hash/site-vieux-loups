@@ -5,7 +5,7 @@
 // ═══════════════════════════════════════════════════════════
 
 const GALERIE = [
-
+  { url: "https://cdn.discordapp.com/attachments/1529547797966360886/1530732347215970505/image.png?ex=6a66a517&is=6a655397&hm=e4154f744eeea9dd726434f36b4d74a0c83389566195a02b29620f98ad61687e&", auteur: "gear_ontop", date: "2026-07-26T00:23:51.642Z", legende: "" }
 ];
 
 if (typeof module !== "undefined") module.exports = GALERIE;
