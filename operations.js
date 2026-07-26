@@ -5,6 +5,7 @@
 // ═══════════════════════════════════════════════════════════
 
 const OPERATIONS = [
+
 ];
 
 if (typeof module !== "undefined") module.exports = OPERATIONS;
