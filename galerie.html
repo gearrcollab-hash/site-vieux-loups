@@ -48,6 +48,14 @@ header.hero-page p{color:var(--gris);font-family:'Special Elite',monospace;margi
   font-size:.82rem;color:var(--gris);opacity:0;transition:opacity .2s;
 }
 .carte-photo .texte-legende{color:var(--craie);font-weight:600;font-size:.9rem}
+.carte-photo .btn-supprimer{
+  position:absolute;top:8px;right:8px;width:32px;height:32px;border-radius:50%;
+  background:rgba(6,6,12,.7);border:1px solid rgba(227,31,191,.5);color:var(--craie);
+  cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:opacity .2s,background .2s;
+}
+.carte-photo:hover .btn-supprimer{opacity:1}
+.carte-photo .btn-supprimer:hover{background:#C0392B;border-color:#C0392B}
 .carte-photo:hover .legende{opacity:1}
 
 .vide{text-align:center;padding:80px 20px;color:var(--gris)}
@@ -126,11 +134,42 @@ function creerCarte(p) {
   const legendeSafe = echapperHTML(p.legende || '');
   const legendeTexte = legendeSafe ? `<span class="texte-legende">${legendeSafe}</span><br>` : '';
   carte.innerHTML = `
+    <button class="btn-supprimer" title="Supprimer cette photo" aria-label="Supprimer cette photo">🗑️</button>
     <img src="${p.url}" alt="${legendeSafe || 'Photo postée par ' + auteurSafe}" loading="lazy">
     <div class="legende">${legendeTexte}📸 ${auteurSafe} · ${formaterDate(p.date)}</div>
   `;
-  carte.addEventListener('click', () => ouvrirLightbox(p));
+  carte.querySelector('img').addEventListener('click', () => ouvrirLightbox(p));
+  carte.querySelector('.btn-supprimer').addEventListener('click', (e) => {
+    e.stopPropagation();
+    demanderSuppression(p, carte);
+  });
   return carte;
+}
+
+async function demanderSuppression(p, carte) {
+  const motDePasse = prompt('Mot de passe pour supprimer cette photo :');
+  if (motDePasse === null) return; // annulé
+
+  try {
+    const rep = await fetch('/api/galerie-supprimer', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ motDePasse, photoUrl: p.url })
+    });
+    const data = await rep.json();
+
+    if (data.ok) {
+      carte.remove();
+      if (!grille.children.length) {
+        grille.hidden = true;
+        vide.hidden = false;
+      }
+    } else {
+      alert('❌ ' + (data.erreur || 'Suppression impossible.'));
+    }
+  } catch {
+    alert('❌ Erreur réseau, réessaie plus tard.');
+  }
 }
 
 const lightbox = document.getElementById('lightbox');
