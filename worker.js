@@ -82,7 +82,12 @@ async function supprimerPhoto(request, env) {
 
   let galerie;
   try {
-    galerie = JSON.parse(correspondance[1]);
+    // Le fichier peut contenir un tableau JS littéral (clés non guillemetées,
+    // ex: { url: "...", auteur: "..." }) plutôt que du JSON strict.
+    // On l'évalue donc comme du JS (contenu de confiance, venant de notre repo),
+    // au lieu d'un JSON.parse strict qui échouerait sur ce format.
+    galerie = new Function(`"use strict"; return (${correspondance[1]});`)();
+    if (!Array.isArray(galerie)) throw new Error('pas un tableau');
   } catch {
     return reponseJSON({ ok: false, erreur: 'Impossible de lire le contenu de la galerie.' }, 500);
   }
