@@ -306,6 +306,55 @@ body>nav,body>header,body>section,body>footer{position:relative;z-index:1}
 }
 .stat-label{margin-top:10px;font-family:'Special Elite',monospace;color:var(--gris);font-size:.85rem;letter-spacing:.05em}
 
+/* ═══ Grille des opérations ═══ */
+.grille-operations{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:22px;margin-top:36px;
+}
+.ops-vide{grid-column:1/-1;text-align:center;color:var(--gris);font-family:'Special Elite',monospace;padding:40px 0}
+.op-carte{
+  position:relative;border-radius:14px;overflow:hidden;cursor:pointer;aspect-ratio:4/3;
+  border:1px solid rgba(139,63,232,.3);background:rgba(139,63,232,.08);
+  transition:transform .25s,box-shadow .25s,border-color .25s;
+}
+.op-carte:hover{transform:translateY(-6px);border-color:var(--magenta);box-shadow:0 16px 44px rgba(227,31,191,.28)}
+.op-carte-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.op-carte-vide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:3rem;opacity:.5}
+.op-carte-overlay{
+  position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding:16px;
+  background:linear-gradient(to top,rgba(10,10,20,.92) 0%,rgba(10,10,20,.4) 55%,transparent 100%);
+}
+.op-carte-titre{font-family:'Rubik Dirt','Special Elite',cursive;color:#fff;font-size:1.1rem;line-height:1.2;text-shadow:0 2px 8px rgba(0,0,0,.8)}
+.op-carte-badge{
+  position:absolute;top:10px;right:10px;background:var(--magenta);color:#fff;
+  font-family:'Special Elite',monospace;font-size:.72rem;padding:3px 9px;border-radius:20px;
+}
+
+/* ═══ Modale détail opération ═══ */
+.op-modal{position:fixed;inset:0;z-index:1000;display:none;align-items:center;justify-content:center;padding:20px}
+.op-modal.ouvert{display:flex}
+.op-modal-fond{position:absolute;inset:0;background:rgba(5,5,12,.85);backdrop-filter:blur(4px)}
+.op-modal-boite{
+  position:relative;z-index:1;max-width:640px;width:100%;max-height:88vh;overflow-y:auto;
+  background:linear-gradient(180deg,#141024,#0e0b18);border:1px solid rgba(139,63,232,.4);border-radius:18px;padding:28px;
+  box-shadow:0 24px 70px rgba(227,31,191,.25);
+}
+.op-modal-fermer{
+  position:absolute;top:14px;right:14px;background:rgba(227,31,191,.15);border:1px solid rgba(227,31,191,.4);
+  color:#fff;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:1rem;transition:background .2s;
+}
+.op-modal-fermer:hover{background:var(--magenta)}
+.op-modal-boite h3{font-family:'Rubik Dirt','Special Elite',cursive;color:#fff;font-size:1.6rem;margin:0 40px 4px 0}
+.op-modal-date{color:var(--gris);font-family:'Special Elite',monospace;font-size:.82rem;margin-bottom:18px}
+.op-modal-photos{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:18px}
+.op-modal-photos img{width:100%;border-radius:10px;cursor:pointer;transition:transform .2s;aspect-ratio:4/3;object-fit:cover}
+.op-modal-photos img:hover{transform:scale(1.03)}
+.op-modal-desc{color:var(--craie);line-height:1.6;margin-bottom:18px;white-space:pre-wrap}
+.op-modal-participants{display:flex;flex-wrap:wrap;gap:8px}
+.op-parti-tag{
+  background:rgba(139,63,232,.18);border:1px solid rgba(139,63,232,.4);color:#d9b8ff;
+  font-family:'Special Elite',monospace;font-size:.8rem;padding:4px 12px;border-radius:20px;
+}
+
 /* ═══ Bandeau candidatures ═══ */
 #bandeau-candidatures{
   position:sticky;top:0;z-index:200;
@@ -368,6 +417,7 @@ body>nav,body>header,body>section,body>footer{position:relative;z-index:1}
     </a>
     <ul class="nav-liens">
       <li><a href="#meute">La Meute</a></li>
+      <li><a href="#operations">Opérations</a></li>
       <li><a href="#recrutement">Recrutement</a></li>
       <li><a href="#videos">Vidéos</a></li>
       <li><a href="galerie.html">Galerie</a></li>
@@ -422,20 +472,40 @@ body>nav,body>header,body>section,body>footer{position:relative;z-index:1}
         <div class="stat-label">MEMBRES DANS LA MEUTE</div>
       </div>
       <div class="stat-bloc">
-        <div class="stat-nombre" data-cible="3">0</div>
+        <div class="stat-nombre" id="compteur-annees" data-cible="0">0</div>
         <div class="stat-label">ANNÉES D'EXISTENCE</div>
       </div>
       <div class="stat-bloc">
-        <div class="stat-nombre" data-cible="142" data-suffixe="+">0</div>
+        <div class="stat-nombre" id="compteur-operations" data-cible="0">0</div>
         <div class="stat-label">OPÉRATIONS MENÉES</div>
-      </div>
-      <div class="stat-bloc">
-        <div class="stat-nombre" data-cible="8">0</div>
-        <div class="stat-label">TERRITOIRES TENUS</div>
       </div>
     </div>
   </div>
 </section>
+
+<!-- ═══ NOS OPÉRATIONS ═══ -->
+<section id="operations">
+  <div class="conteneur">
+    <h2 class="titre-section display">Nos <span class="rose">opérations</span></h2>
+    <p class="sous-titre">— Les coups de la meute, immortalisés —</p>
+    <div id="grille-operations" class="grille-operations">
+      <p id="ops-vide" class="ops-vide">Aucune opération enregistrée pour le moment. Ça ne saurait tarder... 🐺</p>
+    </div>
+  </div>
+</section>
+
+<!-- Fenêtre détail d'une opération -->
+<div id="op-modal" class="op-modal" aria-hidden="true">
+  <div class="op-modal-fond"></div>
+  <div class="op-modal-boite">
+    <button class="op-modal-fermer" aria-label="Fermer">✕</button>
+    <h3 id="op-modal-titre"></h3>
+    <p id="op-modal-date" class="op-modal-date"></p>
+    <div id="op-modal-photos" class="op-modal-photos"></div>
+    <p id="op-modal-desc" class="op-modal-desc"></p>
+    <div id="op-modal-participants" class="op-modal-participants"></div>
+  </div>
+</div>
 
 <!-- ═══ RECRUTEMENT ═══ -->
 <section id="recrutement">
@@ -815,6 +885,33 @@ function afficher(type, message) {
   window.addEventListener('resize', dimensionner);
 })();
 
+/* ═══ Années d'existence (calcul auto) + nombre d'opérations ═══ */
+(function(){
+  // Années depuis le timestamp de création (1782652555 = date de fondation)
+  const DEBUT = 1782652555; // timestamp Unix en secondes
+  const annees = Math.max(0, Math.floor((Date.now()/1000 - DEBUT) / (365.25*24*3600)));
+  const elAnnees = document.getElementById('compteur-annees');
+  if (elAnnees) elAnnees.dataset.cible = annees < 1 ? 1 : annees; // au moins 1 an affiché
+
+  // Nombre d'opérations : on charge operations.js UNE SEULE FOIS
+  const s = document.createElement('script');
+  s.src = 'operations.js?t=' + Date.now();
+  s.onload = () => {
+    if (typeof OPERATIONS !== 'undefined'){
+      window.__OPERATIONS = OPERATIONS; // partagé avec la grille
+      const el = document.getElementById('compteur-operations');
+      if (el){
+        el.dataset.cible = OPERATIONS.length;
+        if (el.dataset.anime === 'ok') el.textContent = OPERATIONS.length;
+      }
+      // Signale à la grille que les données sont prêtes
+      document.dispatchEvent(new CustomEvent('operations-pretes'));
+    }
+  };
+  s.onerror = () => { window.__OPERATIONS = []; document.dispatchEvent(new CustomEvent('operations-pretes')); };
+  document.head.appendChild(s);
+})();
+
 /* ═══ Compteur animé (se lance quand visible) ═══ */
 (function(){
   const compteurs = document.querySelectorAll('.stat-nombre[data-cible]');
@@ -887,6 +984,90 @@ function afficher(type, message) {
   };
   s.onerror = () => {}; // fichier absent → on garde la valeur par défaut
   document.head.appendChild(s);
+})();
+</script>
+<script>
+/* ═══ Affichage des opérations (grille + modale détail) ═══ */
+(function(){
+  const grille = document.getElementById('grille-operations');
+  if (!grille) return;
+
+  function echapper(s){
+    return String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  function formatDate(ts){
+    try { return new Date(ts).toLocaleDateString('fr-FR', {day:'2-digit',month:'long',year:'numeric'}); }
+    catch(e){ return ''; }
+  }
+
+  function afficher(operations){
+    const vide = document.getElementById('ops-vide');
+    if (!operations || !operations.length){ if (vide) vide.style.display='block'; return; }
+    if (vide) vide.style.display='none';
+
+    operations.forEach((op, i) => {
+      const carte = document.createElement('div');
+      carte.className = 'op-carte';
+      const photo0 = (op.photos && op.photos[0]) ? op.photos[0] : null;
+      carte.innerHTML =
+        (photo0 ? `<img class="op-carte-img" src="${echapper(photo0)}" alt="" loading="lazy">` : `<div class="op-carte-vide">🎯</div>`) +
+        (op.photos && op.photos.length > 1 ? `<span class="op-carte-badge">📸 ${op.photos.length}</span>` : '') +
+        `<div class="op-carte-overlay"><div class="op-carte-titre">${echapper(op.titre)}</div></div>`;
+      carte.addEventListener('click', () => ouvrirModale(op));
+      grille.appendChild(carte);
+    });
+  }
+
+  /* Modale */
+  const modal = document.getElementById('op-modal');
+  const mTitre = document.getElementById('op-modal-titre');
+  const mDate = document.getElementById('op-modal-date');
+  const mPhotos = document.getElementById('op-modal-photos');
+  const mDesc = document.getElementById('op-modal-desc');
+  const mParti = document.getElementById('op-modal-participants');
+
+  function ouvrirModale(op){
+    mTitre.textContent = op.titre || 'Opération';
+    mDate.textContent = op.date ? '📅 ' + formatDate(op.date) : '';
+    mDesc.textContent = op.description || '';
+    // Photos
+    mPhotos.innerHTML = '';
+    (op.photos || []).forEach(url => {
+      const img = document.createElement('img');
+      img.src = url; img.alt = ''; img.loading = 'lazy';
+      img.addEventListener('click', () => window.open(url, '_blank'));
+      mPhotos.appendChild(img);
+    });
+    mPhotos.style.display = (op.photos && op.photos.length) ? 'grid' : 'none';
+    // Participants
+    mParti.innerHTML = '';
+    if (op.participants && op.participants.length){
+      const label = document.createElement('span');
+      label.className = 'op-parti-tag'; label.textContent = '🐺 Avec :';
+      mParti.appendChild(label);
+      op.participants.forEach(p => {
+        const tag = document.createElement('span');
+        tag.className = 'op-parti-tag'; tag.textContent = p;
+        mParti.appendChild(tag);
+      });
+    }
+    modal.classList.add('ouvert');
+    modal.setAttribute('aria-hidden', 'false');
+  }
+
+  function fermer(){ modal.classList.remove('ouvert'); modal.setAttribute('aria-hidden','true'); }
+  modal.querySelector('.op-modal-fermer').addEventListener('click', fermer);
+  modal.querySelector('.op-modal-fond').addEventListener('click', fermer);
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') fermer(); });
+
+  // Utilise les opérations déjà chargées (par le script du compteur)
+  function demarrer(){
+    const ops = window.__OPERATIONS || [];
+    afficher(ops);
+  }
+  if (window.__OPERATIONS !== undefined) demarrer();
+  else document.addEventListener('operations-pretes', demarrer, { once: true });
 })();
 </script>
 </body>
