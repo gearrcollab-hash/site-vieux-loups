@@ -84,9 +84,14 @@ async function supprimerPhoto(request, env) {
   try {
     // Le fichier peut contenir un tableau JS littéral (clés non guillemetées,
     // ex: { url: "...", auteur: "..." }) plutôt que du JSON strict.
-    // On l'évalue donc comme du JS (contenu de confiance, venant de notre repo),
-    // au lieu d'un JSON.parse strict qui échouerait sur ce format.
-    galerie = new Function(`"use strict"; return (${correspondance[1]});`)();
+    // Cloudflare Workers interdit new Function()/eval, donc on ne peut pas
+    // évaluer ça comme du JS : on ajoute des guillemets autour des clés
+    // (si elles n'en ont pas déjà) puis on fait un JSON.parse classique.
+    const avecGuillemets = correspondance[1].replace(
+      /([{,]\s*)([A-Za-z_$][A-Za-z0-9_$]*)\s*:/g,
+      '$1"$2":'
+    );
+    galerie = JSON.parse(avecGuillemets);
     if (!Array.isArray(galerie)) throw new Error('pas un tableau');
   } catch {
     return reponseJSON({ ok: false, erreur: 'Impossible de lire le contenu de la galerie.' }, 500);
