@@ -5,6 +5,7 @@
 // ═══════════════════════════════════════════════════════════
 
 const GALERIE = [
+  { url: "https://cdn.discordapp.com/attachments/1529547797966360886/1530733539664990288/image.png?ex=6a66a633&is=6a6554b3&hm=da645bac17d1e6339de142f6da5652fa7e0da5e23f38e74f2519abb33eec4840&", auteur: "gear_ontop", date: "2026-07-26T00:28:35.824Z", legende: "" },
   { url: "https://cdn.discordapp.com/attachments/1529547797966360886/1530733527853694986/image.png?ex=6a66a630&is=6a6554b0&hm=a534c63f0344d4405b949642f14565656b11a96c9760872c5afd0dfaef0b275c&", auteur: "gear_ontop", date: "2026-07-26T00:28:32.919Z", legende: "" },
   { url: "https://cdn.discordapp.com/attachments/1529547797966360886/1530733504524980385/image.png?ex=6a66a62b&is=6a6554ab&hm=57343bfc10451008c53f6a67ded54e69e8145a152273cf6bab1533921030b6fb&", auteur: "gear_ontop", date: "2026-07-26T00:28:27.431Z", legende: "" },
   { url: "https://cdn.discordapp.com/attachments/1529547797966360886/1530733489983586344/image.png?ex=6a66a627&is=6a6554a7&hm=5de3f9903bc0d012bd9eee92988ce8a9fde8ef7812cb7770f3fbf2d745f63381&", auteur: "gear_ontop", date: "2026-07-26T00:28:23.869Z", legende: "" },
