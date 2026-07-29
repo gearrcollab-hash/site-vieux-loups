@@ -101,7 +101,13 @@ section{padding:90px 0}
 .carte-devise p{color:var(--gris);font-size:.98rem}
 
 /* ─── Recrutement (affiche wanted) ─── */
-#recrutement{background:var(--nuit-2)}
+/* Section entièrement masquée par défaut : elle n'apparaît sur l'accueil
+   que si le bandeau des candidatures est sur "ouvert". */
+#recrutement{background:var(--nuit-2);display:none}
+.lien-recrutement{display:none}
+body.recrutement-actif #recrutement{display:block}
+body.recrutement-actif li.lien-recrutement{display:block}
+body.recrutement-actif a.lien-recrutement{display:inline-flex}
 .dossier{
   max-width:680px;margin:0 auto;position:relative;
   background:linear-gradient(160deg,#E6D6AE 0%,#D9C494 45%,#C9AF7C 100%);
@@ -484,7 +490,7 @@ body>nav,body>header,body>section,body>footer{position:relative;z-index:1}
       <li><a href="#meute">La Meute</a></li>
       <li><a href="#histoire">Histoire</a></li>
       <li><a href="operations.html">Opérations</a></li>
-      <li><a href="#recrutement">Recrutement</a></li>
+      <li class="lien-recrutement"><a href="#recrutement">Recrutement</a></li>
       <li><a href="#videos">Vidéos</a></li>
       <li><a href="galerie.html">Galerie</a></li>
       <li><a href="#contact">Discord</a></li>
@@ -502,7 +508,7 @@ body>nav,body>header,body>section,body>footer{position:relative;z-index:1}
     <h1 class="display">LES VIEUX LOUPS <span class="rose">DE L'EHPAD</span></h1>
     <p class="hero-slogan">Retraités, oui... mais jamais à genoux.</p>
     <div class="boutons">
-      <a href="#recrutement" class="btn btn-neon">🐺 Rejoindre la meute</a>
+      <a href="#recrutement" class="btn btn-neon lien-recrutement">🐺 Rejoindre la meute</a>
       <a href="#videos" class="btn btn-fantome">🎬 Voir les vidéos</a>
     </div>
   </div>
@@ -1067,15 +1073,17 @@ function afficher(type, message) {
     if (ouvert){
       bandeau.classList.add('ouvert'); bandeau.classList.remove('ferme');
       texte.textContent = '📢 CANDIDATURES OUVERTES — La meute recrute !';
-      // On montre le formulaire, on cache le message fermé
+      // On révèle toute la section « Dossier d'admission » (+ le lien nav et le bouton hero)
+      document.body.classList.add('recrutement-actif');
       if (blocOuvert) blocOuvert.style.display = 'block';
       if (blocFerme) blocFerme.style.display = 'none';
     } else {
       bandeau.classList.add('ferme'); bandeau.classList.remove('ouvert');
       texte.textContent = '🔒 CANDIDATURES FERMÉES pour le moment — reviens bientôt.';
-      // On cache le formulaire, on montre le message fermé
+      // Candidatures fermées : la section n'existe pas sur l'accueil
+      document.body.classList.remove('recrutement-actif');
       if (blocOuvert) blocOuvert.style.display = 'none';
-      if (blocFerme) blocFerme.style.display = 'block';
+      if (blocFerme) blocFerme.style.display = 'none';
     }
   }
 
